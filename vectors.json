@@ -1,0 +1,453 @@
+{
+  "cases": [
+    {
+      "approved_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "attempt_id": "sha256:bb2675fd6d7b39935ea45431e6046890bf5d502624028f057a3466fddbb01888",
+      "attempt_preimage": {
+        "action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+        "attempt_seq": 1,
+        "executor_id": "probity-protected-dispatcher",
+        "ts_ms": 1791557046500,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "AR-00",
+      "covering_decision_for_effective_ref": null,
+      "decision_id": "sha256:a092d330904a095309caecfa2e59bda6db1c5652f5bb84692e30b333e8593199",
+      "decision_preimage": {
+        "action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "ts_ms": 1791557046000
+      },
+      "effective_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "result_id": "sha256:f9bd28007e6094163f8d77ebee2929b41358715ea81603ef8cecdaba881cdd13",
+      "result_preimage": {
+        "attempt_id": "sha256:bb2675fd6d7b39935ea45431e6046890bf5d502624028f057a3466fddbb01888",
+        "outcome": "completed",
+        "output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "ts_ms": 1791557047000,
+        "version": "execution-join-ref-v1"
+      },
+      "rewritten": false,
+      "source": {
+        "approved_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-00",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "attempted_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-00",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "execution_digest": "da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "grant_issued_at_iso": "2026-10-09T14:44:06Z",
+        "grant_profile": "probity-protected-action-reference-v0",
+        "observer_case_dir": "AR-00"
+      },
+      "synthetic": false
+    },
+    {
+      "approved_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "AR-01",
+      "covering_decision_for_effective_ref": null,
+      "decision_id": "sha256:a092d330904a095309caecfa2e59bda6db1c5652f5bb84692e30b333e8593199",
+      "decision_preimage": {
+        "action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "ts_ms": 1791557046000
+      },
+      "effective_action_ref": "sha256:0f3d643796f76769619068590792fc2556c32296b6d446e6306c68f53c2a6459",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-99.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "rewritten": true,
+      "source": {
+        "approved_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-01",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "attempted_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-01",
+          "target_path": "/work/acct-99.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "execution_digest": "da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "grant_issued_at_iso": "2026-10-09T14:44:06Z",
+        "grant_profile": "probity-protected-action-reference-v0",
+        "observer_case_dir": "AR-01"
+      },
+      "synthetic": false
+    },
+    {
+      "approved_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "AR-02",
+      "covering_decision_for_effective_ref": null,
+      "decision_id": "sha256:a092d330904a095309caecfa2e59bda6db1c5652f5bb84692e30b333e8593199",
+      "decision_preimage": {
+        "action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "ts_ms": 1791557046000
+      },
+      "effective_action_ref": "sha256:d689e057126b11de1c8ea94d18fcf64c139873ebde57b3230dff7f54338cbf2d",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-reporting",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "rewritten": true,
+      "source": {
+        "approved_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-02",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "attempted_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-reporting",
+          "request_id": "request-1",
+          "run_id": "remora-AR-02",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "execution_digest": "da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "grant_issued_at_iso": "2026-10-09T14:44:06Z",
+        "grant_profile": "probity-protected-action-reference-v0",
+        "observer_case_dir": "AR-02"
+      },
+      "synthetic": false
+    },
+    {
+      "approved_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "AR-03",
+      "covering_decision_for_effective_ref": null,
+      "decision_id": "sha256:a092d330904a095309caecfa2e59bda6db1c5652f5bb84692e30b333e8593199",
+      "decision_preimage": {
+        "action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "ts_ms": 1791557046000
+      },
+      "effective_action_ref": "sha256:76e47be697693f51e30e3342b48a382a944ff740e265c41cdedec4fe992b90e4",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "wire_transfer:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "rewritten": true,
+      "source": {
+        "approved_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-03",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "attempted_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-03",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "wire_transfer"
+        },
+        "execution_digest": "da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "grant_issued_at_iso": "2026-10-09T14:44:06Z",
+        "grant_profile": "probity-protected-action-reference-v0",
+        "observer_case_dir": "AR-03"
+      },
+      "source_scope_note": "Observer's own run labels this UNSUPPORTED/unsupported-exact-vector (no registered reachable alternate tool) -- but invariant 6 only depends on the preimage differing with no covering decision, so it still applies regardless of that labeling.",
+      "synthetic": false
+    },
+    {
+      "approved_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "AR-04",
+      "covering_decision_for_effective_ref": null,
+      "decision_id": "sha256:af6a3c7855ca29ceaf7aad4ea63ee9df270538673d80f0f35cabc8335e020a4f",
+      "decision_preimage": {
+        "action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/20611fe0cec60da335ceaf17291205c963854565e95b0d2de3931984e78f99a2",
+        "ts_ms": 1791557046000
+      },
+      "effective_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "out_of_scope_for_invariant_6": "approved_action_ref == effective_action_ref (principal/path/tool unchanged); the refusal is driven by a policy/context digest that execution-join-ref-v1's action_ref preimage does not include. This case is NOT modeled by invariant 6 and we do not force it in.",
+      "rewritten": false,
+      "source": {
+        "approved_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-04",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "attempted_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-04",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "execution_digest": "20611fe0cec60da335ceaf17291205c963854565e95b0d2de3931984e78f99a2",
+        "grant_issued_at_iso": "2026-10-09T14:44:06Z",
+        "grant_profile": "probity-protected-action-reference-v0",
+        "observer_case_dir": "AR-04"
+      },
+      "synthetic": false
+    },
+    {
+      "approved_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "attempt_id": "sha256:bb2675fd6d7b39935ea45431e6046890bf5d502624028f057a3466fddbb01888",
+      "attempt_preimage": {
+        "action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+        "attempt_seq": 1,
+        "executor_id": "probity-protected-dispatcher",
+        "ts_ms": 1791557046500,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "AR-05",
+      "covering_decision_for_effective_ref": null,
+      "decision_id": "sha256:a092d330904a095309caecfa2e59bda6db1c5652f5bb84692e30b333e8593199",
+      "decision_preimage": {
+        "action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "ts_ms": 1791557046000
+      },
+      "effective_action_ref": "sha256:c53166e01205d9871f59f62fdb2c7bef0e8c5f5ab9f10cb710dc3d37a92dbfec",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1791557046000,
+        "version": "execution-join-ref-v1"
+      },
+      "output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "post_commit_observation": {
+        "observed_at_ms": null,
+        "observed_hash": "sha256:cdbe1b66420f474d1f621cc108444d2d6b9806f7ceb0961c8514b521c89fa9b3",
+        "observer_id": "probity-protected-dispatcher",
+        "target_scope": "transfer_funds:/work/acct-2.txt"
+      },
+      "result_id": "sha256:f9bd28007e6094163f8d77ebee2929b41358715ea81603ef8cecdaba881cdd13",
+      "result_preimage": {
+        "attempt_id": "sha256:bb2675fd6d7b39935ea45431e6046890bf5d502624028f057a3466fddbb01888",
+        "outcome": "completed",
+        "output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "ts_ms": 1791557047000,
+        "version": "execution-join-ref-v1"
+      },
+      "rewritten": false,
+      "source": {
+        "approved_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-05",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "attempted_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-05",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "current_content_sha256": "cdbe1b66420f474d1f621cc108444d2d6b9806f7ceb0961c8514b521c89fa9b3",
+        "execution_digest": "da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "grant_issued_at_iso": "2026-10-09T14:44:06Z",
+        "grant_profile": "probity-protected-action-reference-v0",
+        "observer_case_dir": "AR-05",
+        "read_back_refusal": "current workspace root differs from the claim"
+      },
+      "synthetic": false
+    },
+    {
+      "approved_action_ref": "sha256:ddf1cda60e18c80d23370e09e936fc1abafc1da095a71a982220741914b5d2aa",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1760000100000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "APPROVED-REWRITE",
+      "covering_decision_for_effective_ref": {
+        "decision_id": "sha256:222353fd2af3cbb387958ae73b7a43b35e61ea643e788f33481d669ae5c808ba",
+        "preimage": {
+          "action_ref": "sha256:7231521903b23b51ea3056d4874eff2570bf8df7f2d10d207b4a6527f7f510d3",
+          "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+          "outcome": "permit",
+          "policy_id": "probity-protected-action-reference-v0/policy-A",
+          "ts_ms": 1760000100200
+        }
+      },
+      "decision_id": "sha256:3e9ade526e7eb0f39cfa3d01c924664298578022503f9f9f279f9caaef958378",
+      "decision_preimage": {
+        "action_ref": "sha256:ddf1cda60e18c80d23370e09e936fc1abafc1da095a71a982220741914b5d2aa",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "effective_action_ref": "sha256:7231521903b23b51ea3056d4874eff2570bf8df7f2d10d207b4a6527f7f510d3",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-3.txt",
+        "ts_ms": 1760000100000,
+        "version": "execution-join-ref-v1"
+      },
+      "note": "Self-authored, not derived from any run. The guardrail rewrote the destination path, then obtained a SECOND decision covering the rewritten (effective) preimage before dispatch -- invariant 6's PASS path.",
+      "rewritten": true,
+      "synthetic": true
+    },
+    {
+      "action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1760000000000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "CHANGED-PREIMAGE",
+      "claimed_action_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Self-authored, not derived from any run. A claimed action_ref that does not recompute from its own declared preimage -- DIGEST_MISMATCH, the existing code. This is deliberately NOT the post-commit case: the divergence is in the preimage fields themselves, recomputed at verification time, not in a live external resource re-read.",
+      "real_action_ref": "sha256:6d987c8abbac29f8e087346b3cc6c5f43465a85ccf865f19317754679683090e",
+      "synthetic": true
+    },
+    {
+      "approved_action_ref": "sha256:6d987c8abbac29f8e087346b3cc6c5f43465a85ccf865f19317754679683090e",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1760000000000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "MISSING-OBSERVATION",
+      "note": "Self-authored. A supported original join (decision covers action_ref, attempt/result exist) with NO later read supplied. A verifier MUST report later state as unknown -- never infer the file is unchanged from the absence of a later observation.",
+      "post_commit_observation": null,
+      "synthetic": true
+    }
+  ],
+  "profile": "execution-join-ref-v1-remora-bridge-v0"
+}
