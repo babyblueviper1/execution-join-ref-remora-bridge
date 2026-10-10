@@ -16,15 +16,19 @@ Checks implemented, each mapped to execution-join-ref-v1
 - chain_integrity (invariant 2, partial): decision_preimage.action_ref ==
   the APPROVED action_ref.
 - effective_call_binding (invariant 6): if effective_action_ref !=
-  approved_action_ref, a decision covering the effective ref must exist AND
-  authorize it (outcome == "permit", see covering_decision_verdict() --
-  fixed 2026-10-10, bug found by babyblueviper1: a covering decision that
+  approved_action_ref, a decision covering the effective ref must exist,
+  declare a canonicalization profile this verifier implements, AND
+  authorize the call (outcome == "permit", see covering_decision_verdict()
+  -- fixed 2026-10-10, bug found by babyblueviper1: a covering decision that
   recomputed and bound to effective_action_ref but denied it used to still
-  return AUTHORIZED_EFFECTIVE_CALL, because outcome was never read).
+  return AUTHORIZED_EFFECTIVE_CALL, because outcome was never read; the
+  profile check added the same pass is defensive completeness, not a bug
+  fix -- no vector ever exercised a different profile).
   None of AR-01/02/03 produce a covering decision at all ->
   EFFECTIVE_CALL_REBINDING_FAILED; COVERING-DENY (synthetic) produces one
-  that denies -> the same code, for the reason covering_decision_verdict()
-  gives.
+  that denies -> the same code; COVERING-UNSUPPORTED-PROFILE (synthetic)
+  declares a profile this verifier does not implement ->
+  UNSUPPORTED_CANONICAL_PROFILE.
 - POST_COMMIT_DIVERGENCE (NEW, proposed -- NOT part of execution-join-ref-v1
   today): a post_commit_observation whose observed_hash differs from the
   result_id's committed output_hash for the same scope. This code does not
@@ -102,7 +106,24 @@ def covering_decision_verdict(covering: dict, effective_ref: str) -> tuple[str, 
     fields for the question that field exists to answer is checking the hash, not the
     decision.
 
-    Returns (code, detail). AUTHORIZED_EFFECTIVE_CALL only when outcome == "permit".
+    Returns (code, detail). AUTHORIZED_EFFECTIVE_CALL only when the covering decision
+    declares the one canonicalization profile this verifier implements AND its outcome
+    is "permit".
+
+    Defensive completeness, added 2026-10-10, same pass as the outcome fix above: this
+    verifier implements exactly one profile (CANON_PROFILE_ID, jcs-rfc8785-v1) and
+    never dispatches on a claimed `canonicalization_profile_id` -- `ref()` hashes
+    whatever preimage it is given the same way regardless of what that field says, and
+    before this change nothing compared the covering decision's declared value against
+    what this verifier actually supports (the spec's own `UNSUPPORTED_CANONICAL_PROFILE`
+    code, docs/spec/execution-join-ref-v1.md, existed for exactly this and was unused by
+    this file). NOT a bug like the outcome one above: no vector here declares a
+    different profile, there is no second canonicalization algorithm in this file to
+    confuse, and the main decision_pre is constructed by this verifier with
+    CANON_PROFILE_ID directly rather than read from an untrusted claim. This closes the
+    gap defensively, for a covering decision whose preimage IS read from case data
+    rather than constructed by this verifier, before it could ever matter.
+
     A structurally-binding covering decision whose outcome is "deny" or "defer"
     provides no authorization for the dispatched call -- reusing
     EFFECTIVE_CALL_REBINDING_FAILED for that case rather than inventing a new taxonomy
@@ -122,6 +143,14 @@ def covering_decision_verdict(covering: dict, effective_ref: str) -> tuple[str, 
         raise Fail("covering_decision_for_effective_ref.decision_id does not recompute from its own preimage")
     if covering["preimage"]["action_ref"] != effective_ref:
         raise Fail("covering_decision_for_effective_ref does not bind to the effective_action_ref")
+    declared_profile = covering["preimage"].get("canonicalization_profile_id")
+    if declared_profile != CANON_PROFILE_ID:
+        return "UNSUPPORTED_CANONICAL_PROFILE", (
+            f"covering_decision_for_effective_ref declares canonicalization_profile_id "
+            f"{declared_profile!r}; this verifier implements only {CANON_PROFILE_ID!r} "
+            f"(jcs-rfc8785-v1) and does not accept a covering decision under a profile it "
+            f"cannot evaluate"
+        )
     outcome = covering["preimage"].get("outcome")
     if outcome == "permit":
         return "AUTHORIZED_EFFECTIVE_CALL", "effective ref has its own recomputed, binding covering decision"
@@ -152,7 +181,7 @@ def verify_case(case: dict) -> dict:
             raise Fail("expected claimed_action_ref to diverge from the recomputed ref")
         return {"case_id": case_id, "code": "DIGEST_MISMATCH", "detail": "claimed action_ref does not recompute from its own preimage"}
 
-    if case.get("synthetic") and case_id in ("APPROVED-REWRITE", "COVERING-DENY"):
+    if case.get("synthetic") and case_id in ("APPROVED-REWRITE", "COVERING-DENY", "COVERING-UNSUPPORTED-PROFILE"):
         approved_request = {
             "principal_id": "svc-payments",
             "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
@@ -172,6 +201,9 @@ def verify_case(case: dict) -> dict:
         if case_id == "COVERING-DENY" and code == "AUTHORIZED_EFFECTIVE_CALL":
             raise Fail("COVERING-DENY's covering decision denies the effective call by construction -- "
                        "a verifier that returns AUTHORIZED_EFFECTIVE_CALL here has the bug this vector exists to catch")
+        if case_id == "COVERING-UNSUPPORTED-PROFILE" and code != "UNSUPPORTED_CANONICAL_PROFILE":
+            raise Fail("COVERING-UNSUPPORTED-PROFILE's covering decision declares a profile this verifier "
+                       f"does not implement, by construction -- expected UNSUPPORTED_CANONICAL_PROFILE, got {code}")
         return {"case_id": case_id, "code": code, "detail": detail}
 
     if case.get("synthetic") and case_id == "MISSING-OBSERVATION":

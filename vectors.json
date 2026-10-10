@@ -461,6 +461,46 @@
       "synthetic": true
     },
     {
+      "approved_action_ref": "sha256:ddf1cda60e18c80d23370e09e936fc1abafc1da095a71a982220741914b5d2aa",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1760000100000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "COVERING-UNSUPPORTED-PROFILE",
+      "covering_decision_for_effective_ref": {
+        "decision_id": "sha256:1dc5cc3278b4e9b327561c8b55a2d113496482c50e2f749780918462ebd899d9",
+        "preimage": {
+          "action_ref": "sha256:7231521903b23b51ea3056d4874eff2570bf8df7f2d10d207b4a6527f7f510d3",
+          "canonicalization_profile_id": "jcs-rfc8785-v2-draft",
+          "outcome": "permit",
+          "policy_id": "probity-protected-action-reference-v0/policy-A",
+          "ts_ms": 1760000100200
+        }
+      },
+      "decision_id": "sha256:3e9ade526e7eb0f39cfa3d01c924664298578022503f9f9f279f9caaef958378",
+      "decision_preimage": {
+        "action_ref": "sha256:ddf1cda60e18c80d23370e09e936fc1abafc1da095a71a982220741914b5d2aa",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "effective_action_ref": "sha256:7231521903b23b51ea3056d4874eff2570bf8df7f2d10d207b4a6527f7f510d3",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-3.txt",
+        "ts_ms": 1760000100000,
+        "version": "execution-join-ref-v1"
+      },
+      "note": "Self-authored, not derived from any run. Same rewrite as APPROVED-REWRITE: a second decision exists, recomputes, binds to effective_action_ref, and permits it -- but declares canonicalization_profile_id 'jcs-rfc8785-v2-draft', a profile this verifier does not implement. Defensive completeness (UNSUPPORTED_CANONICAL_PROFILE, already in the spec's taxonomy), not a bug: before 2026-10-10 nothing checked this field at all, but no published vector or run ever declared a different profile either.",
+      "rewritten": true,
+      "synthetic": true
+    },
+    {
       "action_ref_preimage": {
         "actor_id": "svc-payments",
         "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",

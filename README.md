@@ -10,7 +10,7 @@ built in response to the shared case in
 ## What it checks
 
 Six real cases (a run of Observer's own `examples/remora_effect_bridge.py`
-against REMORA's pinned `autoreview-to-effect-v1` vectors) plus four
+against REMORA's pinned `autoreview-to-effect-v1` vectors) plus five
 self-authored synthetic cases, each mapped onto `execution-join-ref-v1`:
 
 | Case | Outcome |
@@ -21,6 +21,7 @@ self-authored synthetic cases, each mapped onto `execution-join-ref-v1`:
 | File changed after a committed successful write | `POST_COMMIT_DIVERGENCE` — **proposed new code, not part of the spec today** |
 | Rewritten preimage with its own covering decision that permits it | `AUTHORIZED_EFFECTIVE_CALL` |
 | Rewritten preimage with its own covering decision that denies it | `EFFECTIVE_CALL_REBINDING_FAILED` |
+| Rewritten preimage with a covering decision under an unsupported canonicalization profile | `UNSUPPORTED_CANONICAL_PROFILE` |
 | Claimed ref that doesn't recompute from its preimage | `DIGEST_MISMATCH` (existing code) |
 | No later read supplied | `LATER_STATE_UNKNOWN` — absence is never read as "unchanged" |
 

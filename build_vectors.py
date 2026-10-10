@@ -61,10 +61,11 @@ def action_ref_preimage(request: dict, ts_ms: int) -> dict:
     }
 
 
-def decision_preimage(action_ref_value: str, policy_id: str, ts_ms: int, outcome: str = "permit") -> dict:
+def decision_preimage(action_ref_value: str, policy_id: str, ts_ms: int, outcome: str = "permit",
+                      canonicalization_profile_id: str = CANON_PROFILE_ID) -> dict:
     return {
         "action_ref": action_ref_value,
-        "canonicalization_profile_id": CANON_PROFILE_ID,
+        "canonicalization_profile_id": canonicalization_profile_id,
         "outcome": outcome,
         "policy_id": policy_id,
         "ts_ms": ts_ms,
@@ -293,6 +294,64 @@ def build_covering_deny_vector() -> dict:
     }
 
 
+def build_covering_unsupported_profile_vector() -> dict:
+    """Self-authored. Defensive completeness, not a bug fix: added 2026-10-10 alongside
+    the COVERING-DENY fix, but no vector or run ever exercised a covering decision under
+    a different canonicalization_profile_id before this -- this verifier implements
+    exactly one profile and never dispatched on the claim. Same rewrite scenario as
+    APPROVED-REWRITE/COVERING-DENY, second decision has outcome="permit" (isolating this
+    from the outcome check) but declares a profile this verifier does not implement."""
+    approved_request = {
+        "principal_id": "svc-payments",
+        "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "target_path": "/work/acct-2.txt",
+        "tool_id": "transfer_funds",
+    }
+    rewritten_request = {
+        "principal_id": "svc-payments",
+        "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "target_path": "/work/acct-3.txt",
+        "tool_id": "transfer_funds",
+    }
+    ts_ms = 1760000100000
+    second_decision_ts_ms = ts_ms + 200
+
+    approved_preimage = action_ref_preimage(approved_request, ts_ms)
+    approved_action_ref = ref(approved_preimage)
+    effective_preimage = action_ref_preimage(rewritten_request, ts_ms)
+    effective_action_ref = ref(effective_preimage)
+
+    first_decision_pre = decision_preimage(approved_action_ref, "probity-protected-action-reference-v0/policy-A", ts_ms)
+    second_decision_pre = decision_preimage(
+        effective_action_ref, "probity-protected-action-reference-v0/policy-A", second_decision_ts_ms,
+        canonicalization_profile_id="jcs-rfc8785-v2-draft")
+
+    return {
+        "case_id": "COVERING-UNSUPPORTED-PROFILE",
+        "synthetic": True,
+        "note": (
+            "Self-authored, not derived from any run. Same rewrite as APPROVED-REWRITE: "
+            "a second decision exists, recomputes, binds to effective_action_ref, and "
+            "permits it -- but declares canonicalization_profile_id "
+            "'jcs-rfc8785-v2-draft', a profile this verifier does not implement. "
+            "Defensive completeness (UNSUPPORTED_CANONICAL_PROFILE, already in the spec's "
+            "taxonomy), not a bug: before 2026-10-10 nothing checked this field at all, "
+            "but no published vector or run ever declared a different profile either."
+        ),
+        "approved_action_ref_preimage": approved_preimage,
+        "approved_action_ref": approved_action_ref,
+        "effective_action_ref_preimage": effective_preimage,
+        "effective_action_ref": effective_action_ref,
+        "decision_preimage": first_decision_pre,
+        "decision_id": ref(first_decision_pre),
+        "rewritten": True,
+        "covering_decision_for_effective_ref": {
+            "preimage": second_decision_pre,
+            "decision_id": ref(second_decision_pre),
+        },
+    }
+
+
 def build_synthetic_vectors() -> list[dict]:
     base_request = {
         "principal_id": "svc-payments",
@@ -343,7 +402,8 @@ def main() -> None:
     out_path = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("vectors.json")
     case_ids = ["AR-00", "AR-01", "AR-02", "AR-03", "AR-04", "AR-05"]
     cases = ([build_case(run_dir, cid) for cid in case_ids]
-             + [build_approved_rewrite_vector(), build_covering_deny_vector()]
+             + [build_approved_rewrite_vector(), build_covering_deny_vector(),
+                build_covering_unsupported_profile_vector()]
              + build_synthetic_vectors())
     out_path.write_text(json.dumps({"profile": "execution-join-ref-v1-remora-bridge-v0", "cases": cases}, indent=2, sort_keys=True))
     print(f"wrote {out_path} ({len(cases)} cases)")

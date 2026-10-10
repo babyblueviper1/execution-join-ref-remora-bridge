@@ -72,6 +72,7 @@ execution-join-ref-v1 leaves several things implementation-defined.
 | AR-04 (policy/context changed) | **`NOT_MODELED`** — explicitly NOT forced through invariant 6 | `approved_action_ref == effective_action_ref` under our preimage definition (principal/path/tool are unchanged); the refusal is driven by a policy/context digest that the action_ref preimage does not include at all. Treating this as `EFFECTIVE_CALL_REBINDING_FAILED` would be a real overclaim — invariant 6 is specifically about a *rewritten preimage*, not about policy freshness |
 | AR-05 (file changed after success) | `POST_COMMIT_DIVERGENCE` — **proposed, not an adopted spec code** | the committed `result_id.output_hash` is preserved; a later read of the same scope recomputes a different hash. See below. |
 | COVERING-DENY (synthetic) | `EFFECTIVE_CALL_REBINDING_FAILED` | a decision_id covers `effective_action_ref` and recomputes correctly, but its `outcome` is `"deny"` — see "Self-audit" finding #6 |
+| COVERING-UNSUPPORTED-PROFILE (synthetic) | `UNSUPPORTED_CANONICAL_PROFILE` | a decision_id covers `effective_action_ref`, recomputes correctly, and permits it, but declares a `canonicalization_profile_id` this verifier does not implement — defensive completeness added alongside finding #6, not itself a bug |
 
 Four additional vectors are **self-authored, not derived from any run**,
 marked `"synthetic": true`, covering CASE-TABLE.md rows AR-00..AR-05 don't
@@ -85,6 +86,11 @@ exercise:
   second decision's `outcome` is `"deny"`, not `"permit"`. Added 2026-10-10
   after babyblueviper1's mutation testing found the verifier accepted this
   as `AUTHORIZED_EFFECTIVE_CALL` — see "Self-audit" below, finding #6.
+- `COVERING-UNSUPPORTED-PROFILE` — same rewrite scenario again, `outcome`
+  is `"permit"` but `canonicalization_profile_id` is a profile this
+  verifier does not implement. Added the same day as defensive
+  completeness, not a bug fix — no run or vector had ever declared a
+  different profile before this.
 - `CHANGED-PREIMAGE` — a claimed `action_ref` that doesn't recompute from
   its own declared preimage → `DIGEST_MISMATCH`, the already-existing code.
   Kept deliberately distinct from `POST_COMMIT_DIVERGENCE`: this is a
@@ -143,14 +149,29 @@ before trusting the clean result:
    confirmed directly that the pre-fix check logic (recompute + bind, no
    outcome read) would have returned `AUTHORIZED_EFFECTIVE_CALL` for this
    same vector's data.
+7. **(2026-10-10, same pass as #6, defensive completeness — not a bug)**
+   While fixing #6, `covering_decision_verdict()`'s own preimage read
+   showed `canonicalization_profile_id` was likewise never checked against
+   what this verifier implements (`UNSUPPORTED_CANONICAL_PROFILE` is in
+   `execution-join-ref-v1`'s own taxonomy but was unused by this file).
+   Unlike #6, this was never demonstrated as exploitable: no run or vector
+   had declared a different profile, and this verifier has only one
+   canonicalization implementation (`jcs_bytes()`, no profile dispatch), so
+   a mismatched claim changed nothing about how bytes were hashed — only
+   whether the claim itself was honored. Added the check and vector
+   `COVERING-UNSUPPORTED-PROFILE` anyway, for the same reason #6's check
+   exists: a verifier that reads a field into a hash but never acts on
+   what the field says is checking the hash, not the claim. Re-run after
+   adding it: **11/11, `ALL CHECKS PASS`**.
 
-Findings #2 and #6 are the ones worth being explicit about: #2 was found
-and fixed before this was shown to anyone; #6 was found by an external
-reader (babyblueviper1) running their own mutation testing against the
-published commit, not by us, and fixed the same day it was reported. There
-is no claim here that the current version is exhaustively
-adversarial-tested beyond these six mutations — a sixth one landing after
-publication is itself evidence of that.
+Findings #2, #6 and #7 are the ones worth being explicit about: #2 was
+found and fixed before this was shown to anyone; #6 was found by an
+external reader (babyblueviper1) running their own mutation testing
+against the published commit, not by us, and fixed the same day it was
+reported; #7 is this session's own follow-up hardening on the same field
+category, not a reported bug. There is no claim here that the current
+version is exhaustively adversarial-tested beyond these seven mutations —
+a sixth one landing after publication is itself evidence of that.
 
 ## What this does NOT establish
 
