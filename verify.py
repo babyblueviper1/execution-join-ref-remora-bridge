@@ -16,8 +16,15 @@ Checks implemented, each mapped to execution-join-ref-v1
 - chain_integrity (invariant 2, partial): decision_preimage.action_ref ==
   the APPROVED action_ref.
 - effective_call_binding (invariant 6): if effective_action_ref !=
-  approved_action_ref, a decision covering the effective ref must exist.
-  None of AR-01/02/03 produce one -> EFFECTIVE_CALL_REBINDING_FAILED.
+  approved_action_ref, a decision covering the effective ref must exist AND
+  authorize it (outcome == "permit", see covering_decision_verdict() --
+  fixed 2026-10-10, bug found by babyblueviper1: a covering decision that
+  recomputed and bound to effective_action_ref but denied it used to still
+  return AUTHORIZED_EFFECTIVE_CALL, because outcome was never read).
+  None of AR-01/02/03 produce a covering decision at all ->
+  EFFECTIVE_CALL_REBINDING_FAILED; COVERING-DENY (synthetic) produces one
+  that denies -> the same code, for the reason covering_decision_verdict()
+  gives.
 - POST_COMMIT_DIVERGENCE (NEW, proposed -- NOT part of execution-join-ref-v1
   today): a post_commit_observation whose observed_hash differs from the
   result_id's committed output_hash for the same scope. This code does not
@@ -78,6 +85,54 @@ def recompute_action_ref(request: dict, ts_ms: int) -> str:
     return ref(action_ref_preimage(request, ts_ms))
 
 
+def covering_decision_verdict(covering: dict, effective_ref: str) -> tuple[str, str]:
+    """Validates covering_decision_for_effective_ref structurally (recomputes and binds
+    to effective_ref -- a Fail if either does not hold, same as before), then checks
+    whether its outcome actually authorizes the call.
+
+    Fixed 2026-10-10 (bug found by babyblueviper1, mutation testing against
+    giskard09/execution-join-ref-remora-bridge@f900615): until this fix, both call
+    sites checked only that the covering decision recomputes and binds to
+    effective_action_ref, never its `outcome`. A covering decision with
+    outcome="deny" -- a recorded REJECTION -- still produced AUTHORIZED_EFFECTIVE_CALL,
+    because nothing read the field. `outcome` is part of every decision_preimage
+    (`permit | deny | defer`, docs/spec/execution-join-ref-v1.md:50) and is exactly
+    what distinguishes a decision that authorizes a call from one that does not; a
+    verifier that recomputes the preimage byte-for-byte but never reads one of its
+    fields for the question that field exists to answer is checking the hash, not the
+    decision.
+
+    Returns (code, detail). AUTHORIZED_EFFECTIVE_CALL only when outcome == "permit".
+    A structurally-binding covering decision whose outcome is "deny" or "defer"
+    provides no authorization for the dispatched call -- reusing
+    EFFECTIVE_CALL_REBINDING_FAILED for that case rather than inventing a new taxonomy
+    code: execution-join-ref-v1 (docs/spec/execution-join-ref-v1.md) does not define a
+    code for "a decision covers the ref but denies it", and this file already
+    distinguishes a sanctioned code from a proposed, unadopted one elsewhere
+    (POST_COMMIT_DIVERGENCE) rather than inventing silently -- this is the same
+    discipline applied to reuse instead of invention. From the relying party's point
+    of view the two cases are observably identical (nothing authorizes the effective
+    call), even though internally one has no covering decision_id at all and the other
+    has one that denies -- the detail string says which one actually happened. This gap
+    in the taxonomy (no code distinguishing "denied" from "absent") is not fixed here;
+    see PROVENANCE.md.
+    """
+    covering_id = ref(covering["preimage"])
+    if covering_id != covering["decision_id"]:
+        raise Fail("covering_decision_for_effective_ref.decision_id does not recompute from its own preimage")
+    if covering["preimage"]["action_ref"] != effective_ref:
+        raise Fail("covering_decision_for_effective_ref does not bind to the effective_action_ref")
+    outcome = covering["preimage"].get("outcome")
+    if outcome == "permit":
+        return "AUTHORIZED_EFFECTIVE_CALL", "effective ref has its own recomputed, binding covering decision"
+    return "EFFECTIVE_CALL_REBINDING_FAILED", (
+        f"a decision_id covers the effective_action_ref and recomputes correctly, but its "
+        f"outcome is {outcome!r}, not 'permit' -- a decision that denies or defers provides "
+        f"no authorization for the dispatched call, the same observable consequence as no "
+        f"covering decision at all"
+    )
+
+
 def verify_case(case: dict) -> dict:
     case_id = case["case_id"]
 
@@ -97,7 +152,7 @@ def verify_case(case: dict) -> dict:
             raise Fail("expected claimed_action_ref to diverge from the recomputed ref")
         return {"case_id": case_id, "code": "DIGEST_MISMATCH", "detail": "claimed action_ref does not recompute from its own preimage"}
 
-    if case.get("synthetic") and case_id == "APPROVED-REWRITE":
+    if case.get("synthetic") and case_id in ("APPROVED-REWRITE", "COVERING-DENY"):
         approved_request = {
             "principal_id": "svc-payments",
             "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
@@ -109,14 +164,15 @@ def verify_case(case: dict) -> dict:
         approved_ref = recompute_action_ref(approved_request, ts_ms)
         effective_ref = recompute_action_ref(rewritten_request, ts_ms)
         if approved_ref != case["approved_action_ref"] or effective_ref != case["effective_action_ref"]:
-            raise Fail("APPROVED-REWRITE action_ref(s) do not recompute from the hardcoded fixture requests")
-        covering = case["covering_decision_for_effective_ref"]
-        covering_id = ref(covering["preimage"])
-        if covering_id != covering["decision_id"]:
-            raise Fail("covering_decision_for_effective_ref.decision_id does not recompute from its own preimage")
-        if covering["preimage"]["action_ref"] != effective_ref:
-            raise Fail("covering_decision_for_effective_ref does not bind to the effective_action_ref")
-        return {"case_id": case_id, "code": "AUTHORIZED_EFFECTIVE_CALL", "detail": "effective ref has its own recomputed, binding covering decision"}
+            raise Fail(f"{case_id} action_ref(s) do not recompute from the hardcoded fixture requests")
+        code, detail = covering_decision_verdict(case["covering_decision_for_effective_ref"], effective_ref)
+        if case_id == "APPROVED-REWRITE" and code != "AUTHORIZED_EFFECTIVE_CALL":
+            raise Fail("APPROVED-REWRITE is this fixture set's positive demonstration of invariant 6 -- "
+                       f"its covering decision must authorize the effective call, got {code}")
+        if case_id == "COVERING-DENY" and code == "AUTHORIZED_EFFECTIVE_CALL":
+            raise Fail("COVERING-DENY's covering decision denies the effective call by construction -- "
+                       "a verifier that returns AUTHORIZED_EFFECTIVE_CALL here has the bug this vector exists to catch")
+        return {"case_id": case_id, "code": code, "detail": detail}
 
     if case.get("synthetic") and case_id == "MISSING-OBSERVATION":
         if case["post_commit_observation"] is not None:
@@ -165,13 +221,10 @@ def verify_case(case: dict) -> dict:
         covering = case.get("covering_decision_for_effective_ref")
         if covering is not None:
             # Recompute THIS decision too -- a non-null value is not itself
-            # evidence; it must actually bind to effective_ref.
-            covering_id = ref(covering["preimage"])
-            if covering_id != covering["decision_id"]:
-                raise Fail("covering_decision_for_effective_ref.decision_id does not recompute from its own preimage")
-            if covering["preimage"]["action_ref"] != effective_ref:
-                raise Fail("covering_decision_for_effective_ref does not bind to the effective_action_ref")
-            return {"case_id": case_id, "code": "AUTHORIZED_EFFECTIVE_CALL", "detail": "effective ref has its own recomputed, binding covering decision"}
+            # evidence; it must actually bind to effective_ref, AND actually
+            # authorize it (see covering_decision_verdict's docstring).
+            code, detail = covering_decision_verdict(covering, effective_ref)
+            return {"case_id": case_id, "code": code, "detail": detail}
         # Observer's own retained records show no second grant was ever
         # issued for the rewritten request in AR-01/02/03.
         return {

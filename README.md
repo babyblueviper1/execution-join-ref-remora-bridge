@@ -10,7 +10,7 @@ built in response to the shared case in
 ## What it checks
 
 Six real cases (a run of Observer's own `examples/remora_effect_bridge.py`
-against REMORA's pinned `autoreview-to-effect-v1` vectors) plus three
+against REMORA's pinned `autoreview-to-effect-v1` vectors) plus four
 self-authored synthetic cases, each mapped onto `execution-join-ref-v1`:
 
 | Case | Outcome |
@@ -19,13 +19,15 @@ self-authored synthetic cases, each mapped onto `execution-join-ref-v1`:
 | Path / identity / tool changed before dispatch | `EFFECTIVE_CALL_REBINDING_FAILED` (invariant 6) |
 | Policy/context digest changed | `NOT_MODELED` — explicitly not forced through invariant 6 |
 | File changed after a committed successful write | `POST_COMMIT_DIVERGENCE` — **proposed new code, not part of the spec today** |
-| Rewritten preimage with its own covering decision | `AUTHORIZED_EFFECTIVE_CALL` |
+| Rewritten preimage with its own covering decision that permits it | `AUTHORIZED_EFFECTIVE_CALL` |
+| Rewritten preimage with its own covering decision that denies it | `EFFECTIVE_CALL_REBINDING_FAILED` |
 | Claimed ref that doesn't recompute from its preimage | `DIGEST_MISMATCH` (existing code) |
 | No later read supplied | `LATER_STATE_UNKNOWN` — absence is never read as "unchanged" |
 
 Full source pins, mapping decisions, scope limits and a self-audit
-(including one real bug found and fixed before this was shown to anyone)
-are in [`PROVENANCE.md`](PROVENANCE.md).
+(including two real bugs found and fixed — one before this was shown to
+anyone, one reported by an external reader after publication) are in
+[`PROVENANCE.md`](PROVENANCE.md).
 
 ## Run it
 

@@ -421,6 +421,46 @@
       "synthetic": true
     },
     {
+      "approved_action_ref": "sha256:ddf1cda60e18c80d23370e09e936fc1abafc1da095a71a982220741914b5d2aa",
+      "approved_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-2.txt",
+        "ts_ms": 1760000100000,
+        "version": "execution-join-ref-v1"
+      },
+      "case_id": "COVERING-DENY",
+      "covering_decision_for_effective_ref": {
+        "decision_id": "sha256:4b45e2801dc9737535a537797713a19dafc2683e3f8cdd9ffaa90fab90366c2e",
+        "preimage": {
+          "action_ref": "sha256:7231521903b23b51ea3056d4874eff2570bf8df7f2d10d207b4a6527f7f510d3",
+          "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+          "outcome": "deny",
+          "policy_id": "probity-protected-action-reference-v0/policy-A",
+          "ts_ms": 1760000100200
+        }
+      },
+      "decision_id": "sha256:3e9ade526e7eb0f39cfa3d01c924664298578022503f9f9f279f9caaef958378",
+      "decision_preimage": {
+        "action_ref": "sha256:ddf1cda60e18c80d23370e09e936fc1abafc1da095a71a982220741914b5d2aa",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "effective_action_ref": "sha256:7231521903b23b51ea3056d4874eff2570bf8df7f2d10d207b4a6527f7f510d3",
+      "effective_action_ref_preimage": {
+        "actor_id": "svc-payments",
+        "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "scope": "transfer_funds:/work/acct-3.txt",
+        "ts_ms": 1760000100000,
+        "version": "execution-join-ref-v1"
+      },
+      "note": "Self-authored, not derived from any run. The guardrail re-evaluated the rewritten (effective) preimage before dispatch -- a decision_id exists, recomputes, and binds to effective_action_ref -- but that decision's outcome is 'deny'. This is invariant 6's rejected-cover path: a decision covers the ref without authorizing it. Before 2026-10-10 this vector would have scored AUTHORIZED_EFFECTIVE_CALL against a verifier that checked only binding, never outcome.",
+      "rewritten": true,
+      "synthetic": true
+    },
+    {
       "action_ref_preimage": {
         "actor_id": "svc-payments",
         "input_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",

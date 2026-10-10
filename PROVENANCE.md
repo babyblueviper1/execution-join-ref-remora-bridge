@@ -71,8 +71,9 @@ execution-join-ref-v1 leaves several things implementation-defined.
 | AR-03 (tool changed) | `EFFECTIVE_CALL_REBINDING_FAILED` | effective preimage differs (scope/tool_id). Observer's own run labels this case `UNSUPPORTED` / `unsupported-exact-vector` because it has no registered reachable alternate tool — **that labeling is about Observer's own scope, not about whether invariant 6 applies**; invariant 6 only needs the preimage to differ with no covering decision, which holds regardless |
 | AR-04 (policy/context changed) | **`NOT_MODELED`** — explicitly NOT forced through invariant 6 | `approved_action_ref == effective_action_ref` under our preimage definition (principal/path/tool are unchanged); the refusal is driven by a policy/context digest that the action_ref preimage does not include at all. Treating this as `EFFECTIVE_CALL_REBINDING_FAILED` would be a real overclaim — invariant 6 is specifically about a *rewritten preimage*, not about policy freshness |
 | AR-05 (file changed after success) | `POST_COMMIT_DIVERGENCE` — **proposed, not an adopted spec code** | the committed `result_id.output_hash` is preserved; a later read of the same scope recomputes a different hash. See below. |
+| COVERING-DENY (synthetic) | `EFFECTIVE_CALL_REBINDING_FAILED` | a decision_id covers `effective_action_ref` and recomputes correctly, but its `outcome` is `"deny"` — see "Self-audit" finding #6 |
 
-Three additional vectors are **self-authored, not derived from any run**,
+Four additional vectors are **self-authored, not derived from any run**,
 marked `"synthetic": true`, covering CASE-TABLE.md rows AR-00..AR-05 don't
 exercise:
 
@@ -80,6 +81,10 @@ exercise:
   independently-recomputed covering decision before dispatch. Needed
   because none of AR-00..AR-05 exercise invariant 6's pass path, only its
   failure path (see "Self-audit" below — this gap was caught for real).
+- `COVERING-DENY` — same rewrite scenario as `APPROVED-REWRITE`, but the
+  second decision's `outcome` is `"deny"`, not `"permit"`. Added 2026-10-10
+  after babyblueviper1's mutation testing found the verifier accepted this
+  as `AUTHORIZED_EFFECTIVE_CALL` — see "Self-audit" below, finding #6.
 - `CHANGED-PREIMAGE` — a claimed `action_ref` that doesn't recompute from
   its own declared preimage → `DIGEST_MISMATCH`, the already-existing code.
   Kept deliberately distinct from `POST_COMMIT_DIVERGENCE`: this is a
@@ -121,11 +126,31 @@ before trusting the clean result:
 4. Corrupted `AR-05.result_id` → **caught** (`result_id mismatch`).
 5. Re-ran the full clean `vectors.json` after the fix: **9/9 cases,
    `ALL CHECKS PASS`**.
+6. **(2026-10-10, found by babyblueviper1, not by us)** Mutation testing
+   against the published `f900615` found that the covering-decision check
+   added for finding #2 recomputed the decision and confirmed it binds to
+   `effective_action_ref`, but never read the decision's own `outcome`
+   field. A covering decision recorded as `"deny"` — a rejection — still
+   produced `AUTHORIZED_EFFECTIVE_CALL`, because nothing checked what the
+   decision actually decided. **Fixed** — `covering_decision_verdict()` in
+   `verify.py` now requires `outcome == "permit"`; anything else (`"deny"`,
+   `"defer"`) returns `EFFECTIVE_CALL_REBINDING_FAILED` (reusing the
+   existing code — `execution-join-ref-v1` has no code today that
+   distinguishes "a decision covers this and denies it" from "no decision
+   covers this at all"; see "What this does NOT establish" below). New
+   vector `COVERING-DENY` added so this path has its own case, not only a
+   mutation. Re-run after the fix: **10/10, `ALL CHECKS PASS`**, and
+   confirmed directly that the pre-fix check logic (recompute + bind, no
+   outcome read) would have returned `AUTHORIZED_EFFECTIVE_CALL` for this
+   same vector's data.
 
-Finding #2 is the one worth being explicit about: it was found and fixed
-*before* this was shown to anyone, not after. There is no claim here that
-the current version is exhaustively adversarial-tested beyond these five
-mutations.
+Findings #2 and #6 are the ones worth being explicit about: #2 was found
+and fixed before this was shown to anyone; #6 was found by an external
+reader (babyblueviper1) running their own mutation testing against the
+published commit, not by us, and fixed the same day it was reported. There
+is no claim here that the current version is exhaustively
+adversarial-tested beyond these six mutations — a sixth one landing after
+publication is itself evidence of that.
 
 ## What this does NOT establish
 
@@ -137,6 +162,13 @@ mutations.
   onto 5 of 6 real cases plus one it was never meant to cover (AR-04).
 - `POST_COMMIT_DIVERGENCE` is this verifier's proposal. It has not been
   reviewed or adopted anywhere, including internally beyond this session.
+- `execution-join-ref-v1` has no failure code distinguishing "a decision
+  covers the effective ref and denies it" from "no decision covers the
+  effective ref at all" — both report `EFFECTIVE_CALL_REBINDING_FAILED`
+  here (see "Self-audit" finding #6). The two are observably identical to
+  a relying party deciding whether to trust the call, but not identical as
+  evidence: one has a decision_id on record, the other has none. This gap
+  is not fixed here, only reported honestly.
 - The `ts_ms` convention for attempt/result (decision+500ms/+1000ms) is
   fabricated by us for lack of a source timestamp — it is NOT evidence that
   the real write happened at that offset, only a deterministic convention

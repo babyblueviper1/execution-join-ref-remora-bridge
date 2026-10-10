@@ -61,11 +61,11 @@ def action_ref_preimage(request: dict, ts_ms: int) -> dict:
     }
 
 
-def decision_preimage(action_ref_value: str, policy_id: str, ts_ms: int) -> dict:
+def decision_preimage(action_ref_value: str, policy_id: str, ts_ms: int, outcome: str = "permit") -> dict:
     return {
         "action_ref": action_ref_value,
         "canonicalization_profile_id": CANON_PROFILE_ID,
-        "outcome": "permit",
+        "outcome": outcome,
         "policy_id": policy_id,
         "ts_ms": ts_ms,
     }
@@ -234,6 +234,65 @@ def build_approved_rewrite_vector() -> dict:
     }
 
 
+def build_covering_deny_vector() -> dict:
+    """Self-authored. Found by babyblueviper1 (mutation testing against this repo's
+    f900615, 2026-10-10): a covering decision that recomputes and binds to
+    effective_action_ref but whose outcome is "deny" -- a recorded REJECTION, not an
+    authorization -- used to still produce AUTHORIZED_EFFECTIVE_CALL, because verify.py
+    checked that the decision covers the ref and never read what it decided. Same
+    rewrite scenario as APPROVED-REWRITE (identical approved_request/rewritten_request/
+    timestamps -- verify.py's hardcoded recomputation for both vectors is the same
+    block), differing only in the second decision's outcome."""
+    approved_request = {
+        "principal_id": "svc-payments",
+        "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "target_path": "/work/acct-2.txt",
+        "tool_id": "transfer_funds",
+    }
+    rewritten_request = {
+        "principal_id": "svc-payments",
+        "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "target_path": "/work/acct-3.txt",
+        "tool_id": "transfer_funds",
+    }
+    ts_ms = 1760000100000
+    second_decision_ts_ms = ts_ms + 200
+
+    approved_preimage = action_ref_preimage(approved_request, ts_ms)
+    approved_action_ref = ref(approved_preimage)
+    effective_preimage = action_ref_preimage(rewritten_request, ts_ms)
+    effective_action_ref = ref(effective_preimage)
+
+    first_decision_pre = decision_preimage(approved_action_ref, "probity-protected-action-reference-v0/policy-A", ts_ms)
+    second_decision_pre = decision_preimage(
+        effective_action_ref, "probity-protected-action-reference-v0/policy-A", second_decision_ts_ms, outcome="deny")
+
+    return {
+        "case_id": "COVERING-DENY",
+        "synthetic": True,
+        "note": (
+            "Self-authored, not derived from any run. The guardrail re-evaluated the "
+            "rewritten (effective) preimage before dispatch -- a decision_id exists, "
+            "recomputes, and binds to effective_action_ref -- but that decision's "
+            "outcome is 'deny'. This is invariant 6's rejected-cover path: a decision "
+            "covers the ref without authorizing it. Before 2026-10-10 this vector would "
+            "have scored AUTHORIZED_EFFECTIVE_CALL against a verifier that checked only "
+            "binding, never outcome."
+        ),
+        "approved_action_ref_preimage": approved_preimage,
+        "approved_action_ref": approved_action_ref,
+        "effective_action_ref_preimage": effective_preimage,
+        "effective_action_ref": effective_action_ref,
+        "decision_preimage": first_decision_pre,
+        "decision_id": ref(first_decision_pre),
+        "rewritten": True,
+        "covering_decision_for_effective_ref": {
+            "preimage": second_decision_pre,
+            "decision_id": ref(second_decision_pre),
+        },
+    }
+
+
 def build_synthetic_vectors() -> list[dict]:
     base_request = {
         "principal_id": "svc-payments",
@@ -283,7 +342,9 @@ def main() -> None:
     run_dir = Path(sys.argv[1])
     out_path = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("vectors.json")
     case_ids = ["AR-00", "AR-01", "AR-02", "AR-03", "AR-04", "AR-05"]
-    cases = [build_case(run_dir, cid) for cid in case_ids] + [build_approved_rewrite_vector()] + build_synthetic_vectors()
+    cases = ([build_case(run_dir, cid) for cid in case_ids]
+             + [build_approved_rewrite_vector(), build_covering_deny_vector()]
+             + build_synthetic_vectors())
     out_path.write_text(json.dumps({"profile": "execution-join-ref-v1-remora-bridge-v0", "cases": cases}, indent=2, sort_keys=True))
     print(f"wrote {out_path} ({len(cases)} cases)")
 
