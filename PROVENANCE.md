@@ -194,6 +194,24 @@ a sixth one landing after publication is itself evidence of that.
   fabricated by us for lack of a source timestamp — it is NOT evidence that
   the real write happened at that offset, only a deterministic convention
   so refs are reproducible.
+- **Ordering between the covering decision and the attempt: confirmed
+  indeterminate, not only by us.** Beyond this verifier's own fabricated
+  `ts_ms` convention (above), astrogilda confirmed
+  ([probityai/agent-evidence-atlas#53](https://github.com/probityai/agent-evidence-atlas/issues/53#issuecomment-6102087790))
+  that Observer's separate protected-action profile carries a signed,
+  observer-attested `authorizedAt` — but that field is absent from the
+  REMORA bridge inputs this verifier reads, and cannot be backfilled.
+  Even where it exists, it does not resolve the question: the binding is
+  signed at `seal()`, after the effect
+  ([`authorization.py#L558-L567`](https://github.com/probityai/agent-evidence-observer/blob/ab93f9995afa5568e02c4d443bb06e6dd790087c/src/probity_observer/authorization.py#L558-L567)),
+  which this session verified directly against the pinned commit — "the
+  grant-to-claim signature is made after the write... no outside witness
+  commits to the grant before the effect or independently checks the
+  clock" ([`PROTECTED-ACTION-KIT.md`, Limits](https://github.com/probityai/agent-evidence-observer/blob/ab93f9995afa5568e02c4d443bb06e6dd790087c/docs/PROTECTED-ACTION-KIT.md)).
+  A future case with a separately bound dispatch observation could compare
+  against the covering-decision time. Until then, this verifier reports no
+  ordering claim at all — not because our data is incomplete, but because
+  no upstream source for it exists today.
 
 ## How to run
 
