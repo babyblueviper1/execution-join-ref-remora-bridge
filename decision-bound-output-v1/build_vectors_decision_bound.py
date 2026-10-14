@@ -129,6 +129,45 @@ def main() -> None:
         "expected_code": "UNAUTHORIZED_BINDING",
     })
 
+    # 6. KNOWN LIMITATION, not a bug -- named by babyblueviper1 (2026-10-14).
+    #    Identical content and decision to DECISION-BOUND-OK (case 1), but this
+    #    one also carries a prior_unbound_commitment: a legacy (unbound)
+    #    output_hash for the SAME content, already on record BEFORE the bound
+    #    commitment below was constructed. ORDERING_ESTABLISHED proves the
+    #    bound COMMITMENT could not predate the decision -- it does not and
+    #    cannot prove the underlying WRITE didn't already happen through that
+    #    earlier, unbound commitment. verify_case() does not read
+    #    prior_unbound_commitment at all; this vector exists to make that gap
+    #    checkable rather than only described in prose. expected_code stays
+    #    ORDERING_ESTABLISHED on purpose -- that IS today's behavior, and the
+    #    point of the vector is to prove it, not to claim it's fixed.
+    cases.append({
+        "case_id": "KNOWN-LIMITATION-COMMITMENT-NOT-WRITE",
+        "note": (
+            "Same content_sha256 and decision_id as DECISION-BOUND-OK. "
+            "prior_unbound_commitment shows a legacy (content-only) commitment for "
+            "this exact content was already on record before the bound commitment "
+            "existed -- evidence the effect may have happened before any binding, "
+            "not after. verify_case() ignores prior_unbound_commitment and still "
+            "returns ORDERING_ESTABLISHED: this vector demonstrates the documented "
+            "commitment-after-decision vs write-after-decision gap (decision_bound.py "
+            "module docstring), it does not close it. Comparable to EIP-3009 only in "
+            "the positive direction -- EIP-3009's nonce is consumed by the same event "
+            "that moves funds, so there is no equivalent unbound path for a payment; "
+            "a file write has no single choke point like that unless a sink is "
+            "defined to accept only bound writes, which is outside this mechanism."
+        ),
+        "content_sha256": CONTENT_SHA256,
+        "decision_preimage": DECISION_PREIMAGE,
+        "claimed_decision_id": real_decision_id,
+        "recorded_output_hash": bound_output_hash(CONTENT_SHA256, real_decision_id),
+        "prior_unbound_commitment": {
+            "output_hash": legacy_output_hash(CONTENT_SHA256),
+            "recorded_before_bound_commitment": True,
+        },
+        "expected_code": "ORDERING_ESTABLISHED",
+    })
+
     out = {"profile": "decision-bound-output-v1", "cases": cases}
     Path("vectors_decision_bound.json").write_text(json.dumps(out, indent=2, sort_keys=True))
     print(f"wrote vectors_decision_bound.json ({len(cases)} cases)")

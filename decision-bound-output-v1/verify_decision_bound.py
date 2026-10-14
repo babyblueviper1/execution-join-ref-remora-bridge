@@ -20,6 +20,16 @@ nothing ever exercised that path to notice. With no argument, `main()` now
 reads every `vectors_decision_bound*.json` file in the current directory
 and verifies all of them together, so a new vectors file can't silently
 go unchecked again the way this one did.
+
+Documented, not re-fixed, 2026-10-14 (ogasurfproject-jpg's blind reader,
+second round, against 7125f55): the contract text never stated that
+`claimed_decision_id` must be checked against the recomputed id BEFORE
+the output hash is built -- `verify_case()` below already does this in
+the right order (see the `if claimed_decision_id != real_decision_id`
+check at the top, which returns before `bound_output_hash` is ever
+computed), the code was not the gap, only the prose describing it was.
+See decision_bound.py's module docstring for the check-order sentence
+and the five named result codes added to close this.
 """
 from __future__ import annotations
 

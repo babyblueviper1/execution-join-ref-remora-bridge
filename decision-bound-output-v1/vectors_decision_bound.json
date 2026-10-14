@@ -74,6 +74,25 @@
       "expected_code": "UNAUTHORIZED_BINDING",
       "note": "output_hash correctly binds to denied_decision_id, which recomputes cleanly from its own preimage -- but that decision's outcome is 'deny'. A denied decision cannot be the covering authority for a write that happened anyway, even though the binding itself is cryptographically sound. Same lesson as PROVENANCE.md finding #6 applied here.",
       "recorded_output_hash": "sha256:db24c78457dacf697a4b282ac1a03ef965e65c03eb0dd17a712aad29c04f0232"
+    },
+    {
+      "case_id": "KNOWN-LIMITATION-COMMITMENT-NOT-WRITE",
+      "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "ORDERING_ESTABLISHED",
+      "note": "Same content_sha256 and decision_id as DECISION-BOUND-OK. prior_unbound_commitment shows a legacy (content-only) commitment for this exact content was already on record before the bound commitment existed -- evidence the effect may have happened before any binding, not after. verify_case() ignores prior_unbound_commitment and still returns ORDERING_ESTABLISHED: this vector demonstrates the documented commitment-after-decision vs write-after-decision gap (decision_bound.py module docstring), it does not close it. Comparable to EIP-3009 only in the positive direction -- EIP-3009's nonce is consumed by the same event that moves funds, so there is no equivalent unbound path for a payment; a file write has no single choke point like that unless a sink is defined to accept only bound writes, which is outside this mechanism.",
+      "prior_unbound_commitment": {
+        "output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+        "recorded_before_bound_commitment": true
+      },
+      "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
     }
   ],
   "profile": "decision-bound-output-v1"

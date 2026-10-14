@@ -46,6 +46,21 @@ separately), and the recorded output_hash -- can confirm this
 dependency by recomputation alone. No clock is trusted anywhere in this
 check.
 
+CHECK ORDER (declared explicit 2026-10-14 after ogasurfproject-jpg's blind
+reader got it right by guessing, not because the contract said so --
+see verify_decision_bound.py's own docstring for the incident): a verifier
+MUST compare the claimed `decision_id` against the id recomputed from
+`decision_preimage` FIRST, before doing anything with the output hash. If
+they do not match, the result is `FORGED_DECISION_CITATION` -- full stop,
+never reached by constructing the bound hash at all. Only once the
+citation itself recomputes correctly does a verifier go on to recompute
+`bound_output_hash` and compare it against what was recorded. Checking the
+output hash first and the citation second would accept a forged citation
+whenever the forger also controls (or can recompute) the output hash under
+their own chosen id -- see DECISION-BOUND-FORGED-CITATION in
+vectors_decision_bound.json, constructed exactly to catch a verifier that
+gets this order backwards.
+
 A citation is only accepted if, in addition to recomputing, the cited
 decision's own `outcome` field is `"permit"`: a decision that is
 structurally bound to the output but recorded `"deny"` or `"defer"`
@@ -56,6 +71,19 @@ This is part of the contract, not an implementation detail left for the
 verifier to invent on its own -- see verify_case() in
 verify_decision_bound.py, which returns UNAUTHORIZED_BINDING for exactly
 this case.
+
+THE FIVE RESULT CODES (named here, not only in code -- the other half of
+the same 2026-10-14 fix): in the check order above,
+`FORGED_DECISION_CITATION` (citation does not recompute) comes first,
+then `UNAUTHORIZED_BINDING` (citation recomputes, bound hash matches, but
+`outcome` is not `"permit"`), then `ORDERING_ESTABLISHED` (citation
+recomputes, bound hash matches, `outcome` is `"permit"` -- the positive
+case), then, for a recorded output hash that matches neither the bound
+nor the legacy form, `BINDING_MISMATCH` (something was bound, but not
+consistently with the citation given). A recorded output hash that
+matches the UNBOUND legacy form exactly (content hash alone, see
+`legacy_output_hash`) is `ORDERING_UNVERIFIABLE` -- not a failure, just a
+write that never used this mechanism.
 
 WHAT THIS DOES NOT ESTABLISH (same discipline as PROVENANCE.md elsewhere
 in this repo -- declaring limits is part of the artifact, not an
@@ -94,6 +122,32 @@ afterthought):
   to trust that the cited decision record is the complete, unaltered one.
   That is the same chain-of-custody question execution-join-ref-v1's own
   decision_preimage already has, unchanged here.
+- PRECISE SCOPE OF ORDERING_ESTABLISHED (named by babyblueviper1,
+  2026-10-14, confirmed against the repo's own real-run vectors):
+  ORDERING_ESTABLISHED proves commitment-after-decision -- that THIS BOUND
+  COMMITMENT (the specific output_hash value) could not have been
+  constructed before the cited decision's content existed. It does NOT
+  prove write-after-decision -- that the underlying effect (the file
+  itself) was not already written, through some other, unbound path,
+  before the decision was made. Anyone holding the real content and a
+  real decision_id can compute bound_output_hash over bytes that were
+  already sitting on disk; nothing here prevents that. EIP-3009 does not
+  have this gap because the nonce is consumed by the SAME on-chain event
+  that moves the funds -- there is no second, unbound way for that
+  transfer to have happened. A file write has no equivalent single choke
+  point unless a SINK is defined that accepts only bound writes as
+  evidence of the effect (an operational requirement outside this
+  mechanism, not something a verifier can establish from the file alone).
+  `vectors_decision_bound.json`'s `KNOWN-LIMITATION-COMMITMENT-NOT-WRITE`
+  vector demonstrates this directly: content and decision identical to
+  `DECISION-BOUND-OK`, but carrying a `prior_unbound_commitment` field
+  showing the same content was already committed, unbound, before the
+  bound commitment was constructed -- `verify_case()` still returns
+  `ORDERING_ESTABLISHED` for it today, because nothing in this mechanism
+  reads that field. Closing this (comparing against a prior commitment
+  for "the same write", which first requires defining what identifies a
+  write across two commitments -- a real design question, not a quick
+  field) is not solved here.
 """
 from __future__ import annotations
 
