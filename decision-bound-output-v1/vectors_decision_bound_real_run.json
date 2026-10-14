@@ -1,10 +1,9 @@
 {
   "cases": [
     {
-      "case_id": "AR-00-REAL",
+      "case_id": "AR-00-REAL-AS-OBSERVED",
+      "claimed_decision_id": "sha256:1c5c85631708f0a1933ec1f0ad5981a07ed322353731da58920f11a51410e49e",
       "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
-      "decision_bound_output_hash": "sha256:a6ef258a2510098fa083559c130bda094eb90a410738c7c39af4124af36378bf",
-      "decision_id": "sha256:1c5c85631708f0a1933ec1f0ad5981a07ed322353731da58920f11a51410e49e",
       "decision_preimage": {
         "action_ref": "sha256:c7c141b8f6f403caef15d01c95e67bb9929a4dcc56f3a9c2f6b607b2a7ba5bf0",
         "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
@@ -12,8 +11,43 @@
         "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
         "ts_ms": 1791941946000
       },
-      "legacy_output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
-      "note": "Observer's own run produced the legacy_output_hash (content-only, no decision folded in) -- this is what ../build_vectors.py's AR-00 case actually recorded. decision_bound_output_hash is this session's overlay: what the same real content + the same real covering decision would produce under decision-bound-output-v1, over genuine retained values, not synthetic ones.",
+      "expected_code": "ORDERING_UNVERIFIABLE",
+      "note": "What Observer's real run actually produced today: output_hash is the legacy content-only commitment, decision_id is never folded in. Not a tampering finding -- this write simply predates the mechanism.",
+      "recorded_output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "source": {
+        "approved_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-00",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "execution_digest": "da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "grant_issued_at_iso": "2026-10-14T01:39:06Z",
+        "grant_profile": "probity-protected-action-reference-v0",
+        "observer_commit": "04b495d823dbcc49fa47b28fe1ba359dba8d4553",
+        "remora_commit": "b25e735d36590154ff53768b4d245ad4c7996f64",
+        "remora_vectors_sha256": "f896178eac35aab8843f0902934f1433eb6dccb2a212fc4139a67890faaabd27"
+      },
+      "synthetic": false
+    },
+    {
+      "case_id": "AR-00-REAL-DECISION-BOUND",
+      "claimed_decision_id": "sha256:1c5c85631708f0a1933ec1f0ad5981a07ed322353731da58920f11a51410e49e",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:c7c141b8f6f403caef15d01c95e67bb9929a4dcc56f3a9c2f6b607b2a7ba5bf0",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "ts_ms": 1791941946000
+      },
+      "expected_code": "ORDERING_ESTABLISHED",
+      "note": "The same real content and the same real covering decision, retrofitted under decision-bound-output-v1 -- what the same write would have produced had the dispatcher folded decision_id into output_hash.",
+      "recorded_output_hash": "sha256:a6ef258a2510098fa083559c130bda094eb90a410738c7c39af4124af36378bf",
       "source": {
         "approved_request": {
           "attempt_id": "attempt-1",

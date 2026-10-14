@@ -5,6 +5,21 @@ reader would actually have: the file itself, or its hash, and the decision
 record from wherever it's logged) -- claimed_decision_id and
 recorded_output_hash are exactly the two things being checked, never assumed
 correct.
+
+Fixed 2026-10-14 (bug found by ogasurfproject-jpg's blind read of 301b1dc,
+confirmed by estrategia before reporting): `main()` defaulted to a single
+file (vectors_decision_bound.json, the synthetic set) and
+vectors_decision_bound_real_run.json had never once been run through this
+verifier -- the "ALL 5 CHECKS PASS" this repo reported earlier only ever
+covered the 5 synthetic cases. Running
+`python3 verify_decision_bound.py vectors_decision_bound_real_run.json`
+crashed with KeyError('claimed_decision_id') -- bind_to_real_run.py (before
+its own fix, same date) wrote a different shape (`decision_id` plus two
+separate hash fields) that this verifier was never built to read, and
+nothing ever exercised that path to notice. With no argument, `main()` now
+reads every `vectors_decision_bound*.json` file in the current directory
+and verifies all of them together, so a new vectors file can't silently
+go unchecked again the way this one did.
 """
 from __future__ import annotations
 
@@ -85,23 +100,33 @@ def verify_case(case: dict) -> dict:
 
 
 def main() -> None:
-    vectors_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("vectors_decision_bound.json")
-    data = json.loads(vectors_path.read_text())
+    if len(sys.argv) > 1:
+        vectors_paths = [Path(p) for p in sys.argv[1:]]
+    else:
+        # No argument: check EVERY vectors file in this directory, not just
+        # the synthetic one -- see this module's docstring for why (the
+        # real-run file went unchecked for 4 days under the old default).
+        vectors_paths = sorted(Path(".").glob("vectors_decision_bound*.json"))
+        if not vectors_paths:
+            vectors_paths = [Path("vectors_decision_bound.json")]
+
     outcomes = []
     failures = []
-    for case in data["cases"]:
-        try:
-            result = verify_case(case)
-        except Fail as exc:
-            failures.append({"case_id": case["case_id"], "error": str(exc)})
-            continue
-        outcomes.append(result)
-        expected = case.get("expected_code")
-        if expected and result["code"] != expected:
-            failures.append({
-                "case_id": case["case_id"],
-                "error": f"expected {expected}, verifier returned {result['code']}",
-            })
+    for vectors_path in vectors_paths:
+        data = json.loads(vectors_path.read_text())
+        for case in data["cases"]:
+            try:
+                result = verify_case(case)
+            except Fail as exc:
+                failures.append({"case_id": case["case_id"], "error": str(exc)})
+                continue
+            outcomes.append(result)
+            expected = case.get("expected_code")
+            if expected and result["code"] != expected:
+                failures.append({
+                    "case_id": case["case_id"],
+                    "error": f"expected {expected}, verifier returned {result['code']}",
+                })
 
     for o in outcomes:
         print(f"{o['case_id']:28s} {o['code']:26s} {o['detail'][:90]}")

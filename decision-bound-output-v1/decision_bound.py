@@ -32,8 +32,10 @@ output commitment:
 decision_id is itself SHA-256(JCS(decision_preimage)) (same convention
 already used everywhere else in this repo, see ../verify.py's `ref()`).
 Because decision_id is a one-way hash of the decision's own fields
-(action_ref, policy_id, outcome, ts_ms -- see
-docs/spec/execution-join-ref-v1.md in argentum-core), it is not a value
+(decision_preimage has FIVE: action_ref, canonicalization_profile_id,
+outcome, policy_id, ts_ms -- all five are hashed, see
+docs/spec/execution-join-ref-v1.md in argentum-core and
+../verify.py:decision_pre for the exact shape), it is not a value
 the dispatcher could pick in advance or guess; producing an output_hash
 that recomputes against a specific decision_id is only possible once
 that decision's full content already existed. An independent verifier
@@ -43,6 +45,17 @@ preimage fields (from wherever that decision is logged/anchored
 separately), and the recorded output_hash -- can confirm this
 dependency by recomputation alone. No clock is trusted anywhere in this
 check.
+
+A citation is only accepted if, in addition to recomputing, the cited
+decision's own `outcome` field is `"permit"`: a decision that is
+structurally bound to the output but recorded `"deny"` or `"defer"`
+authorized nothing, even though the hash dependency itself is sound
+(same lesson already applied to execution-join-ref-v1's own
+covering_decision_verdict() in ../verify.py, PROVENANCE.md finding #6).
+This is part of the contract, not an implementation detail left for the
+verifier to invent on its own -- see verify_case() in
+verify_decision_bound.py, which returns UNAUTHORIZED_BINDING for exactly
+this case.
 
 WHAT THIS DOES NOT ESTABLISH (same discipline as PROVENANCE.md elsewhere
 in this repo -- declaring limits is part of the artifact, not an
@@ -109,6 +122,23 @@ def decision_id_from_preimage(decision_preimage: dict) -> str:
 
 
 def bound_output_preimage(content_sha256: str, decision_id: str) -> dict:
+    """Prefix convention, declared explicitly (not obvious from reading the
+    dict literal alone): `content_sha256` is BARE hex, no `sha256:` prefix
+    -- the same convention execution-join-ref-v1's own request.content_sha256
+    uses elsewhere in this repo. `decision_id` already carries the
+    `sha256:` prefix, because it comes out of `ref()` (decision_id_from_
+    preimage), which adds it. Pass each argument exactly as its own
+    producer gives it -- do not strip or add prefixes here.
+
+    `version` is this module's own constant (`VERSION`, "decision-bound-
+    output-v1") -- it identifies the PREIMAGE SHAPE, and is unrelated to
+    any file-level `"profile"` label a vectors JSON might carry (e.g.
+    vectors_decision_bound_real_run.json's top-level "profile":
+    "decision-bound-output-v1-real-run", or build_vectors.py's
+    "execution-join-ref-v1-remora-bridge-v0" elsewhere in this repo) --
+    those are human-readable labels for a FILE, never hashed, never part
+    of this or any other preimage here.
+    """
     return {
         "content_sha256": content_sha256,
         "decision_id": decision_id,
@@ -118,7 +148,9 @@ def bound_output_preimage(content_sha256: str, decision_id: str) -> dict:
 
 def bound_output_hash(content_sha256: str, decision_id: str) -> str:
     """The new output_hash: a commitment to the written content AND the
-    covering decision together, instead of the content alone."""
+    covering decision together, instead of the content alone. See
+    bound_output_preimage's docstring for the exact prefix convention
+    each argument must already carry."""
     return ref(bound_output_preimage(content_sha256, decision_id))
 
 

@@ -26,6 +26,23 @@ decision-bound-output-v1, using the real decision/content values. The
 actual Observer run still only produced the legacy (unbound) output_hash --
 this demonstrates the mechanism retrofitted onto real data, not a claim
 that Observer itself implements it.
+
+OUTPUT SHAPE (fixed 2026-10-14, bug found by ogasurfproject-jpg's blind
+read of 301b1dc): this writes two cases in the SAME shape
+verify_decision_bound.py's verify_case() expects everywhere else
+(case_id / content_sha256 / decision_preimage / claimed_decision_id /
+recorded_output_hash / expected_code) -- one with recorded_output_hash
+set to the legacy (as-Observer-actually-produced-it) form, one with it
+set to the decision-bound form, both citing the same real
+claimed_decision_id. Before this fix the file used a different shape
+(a single record carrying both "decision_id" and two separate hash
+fields side by side) that verify_decision_bound.py had never actually
+been run against -- `python3 verify_decision_bound.py
+vectors_decision_bound.json` only ever exercised the synthetic file, and
+"ALL 5 CHECKS PASS" was reported without the real-run file ever passing
+through the same verifier at all. See verify_decision_bound.py's own
+module docstring for the fix to main() that prevents this specific class
+of oversight from recurring silently.
 """
 from __future__ import annotations
 
@@ -100,39 +117,56 @@ def main() -> None:
     legacy_hash = legacy_output_hash(real_content_sha256)
     bound_hash = bound_output_hash(real_content_sha256, real_decision_id)
 
-    record = {
-        "case_id": "AR-00-REAL",
+    source = {
+        "observer_commit": "04b495d823dbcc49fa47b28fe1ba359dba8d4553",
+        "remora_commit": "b25e735d36590154ff53768b4d245ad4c7996f64",
+        "remora_vectors_sha256": "f896178eac35aab8843f0902934f1433eb6dccb2a212fc4139a67890faaabd27",
+        "approved_request": request,
+        "grant_issued_at_iso": grant["issuedAt"],
+        "grant_profile": grant["profile"],
+        "execution_digest": attempt["executionDigest"],
+    }
+
+    as_observed = {
+        "case_id": "AR-00-REAL-AS-OBSERVED",
         "synthetic": False,
-        "source": {
-            "observer_commit": "04b495d823dbcc49fa47b28fe1ba359dba8d4553",
-            "remora_commit": "b25e735d36590154ff53768b4d245ad4c7996f64",
-            "remora_vectors_sha256": "f896178eac35aab8843f0902934f1433eb6dccb2a212fc4139a67890faaabd27",
-            "approved_request": request,
-            "grant_issued_at_iso": grant["issuedAt"],
-            "grant_profile": grant["profile"],
-            "execution_digest": attempt["executionDigest"],
-        },
+        "source": source,
         "content_sha256": real_content_sha256,
         "decision_preimage": decision_preimage,
-        "decision_id": real_decision_id,
-        "legacy_output_hash": legacy_hash,
-        "decision_bound_output_hash": bound_hash,
+        "claimed_decision_id": real_decision_id,
+        "recorded_output_hash": legacy_hash,
+        "expected_code": "ORDERING_UNVERIFIABLE",
         "note": (
-            "Observer's own run produced the legacy_output_hash (content-only, no "
-            "decision folded in) -- this is what ../build_vectors.py's AR-00 case "
-            "actually recorded. decision_bound_output_hash is this session's overlay: "
-            "what the same real content + the same real covering decision would "
-            "produce under decision-bound-output-v1, over genuine retained values, "
-            "not synthetic ones."
+            "What Observer's real run actually produced today: output_hash is the "
+            "legacy content-only commitment, decision_id is never folded in. Not a "
+            "tampering finding -- this write simply predates the mechanism."
+        ),
+    }
+    decision_bound = {
+        "case_id": "AR-00-REAL-DECISION-BOUND",
+        "synthetic": False,
+        "source": source,
+        "content_sha256": real_content_sha256,
+        "decision_preimage": decision_preimage,
+        "claimed_decision_id": real_decision_id,
+        "recorded_output_hash": bound_hash,
+        "expected_code": "ORDERING_ESTABLISHED",
+        "note": (
+            "The same real content and the same real covering decision, retrofitted "
+            "under decision-bound-output-v1 -- what the same write would have produced "
+            "had the dispatcher folded decision_id into output_hash."
         ),
     }
 
     out_path = Path("vectors_decision_bound_real_run.json")
-    out_path.write_text(json.dumps({"profile": "decision-bound-output-v1-real-run", "cases": [record]}, indent=2, sort_keys=True))
+    out_path.write_text(json.dumps(
+        {"profile": "decision-bound-output-v1-real-run", "cases": [as_observed, decision_bound]},
+        indent=2, sort_keys=True,
+    ))
     print(f"wrote {out_path}")
-    print(f"content_sha256            = {real_content_sha256}")
-    print(f"decision_id (real)        = {real_decision_id}")
-    print(f"legacy_output_hash        = {legacy_hash}")
+    print(f"content_sha256             = {real_content_sha256}")
+    print(f"decision_id (real, cited)  = {real_decision_id}")
+    print(f"legacy_output_hash         = {legacy_hash}")
     print(f"decision_bound_output_hash = {bound_hash}")
 
 
