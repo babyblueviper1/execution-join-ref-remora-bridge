@@ -1,0 +1,80 @@
+{
+  "cases": [
+    {
+      "case_id": "DECISION-BOUND-OK",
+      "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "ORDERING_ESTABLISHED",
+      "note": "The write's output_hash is SHA-256(JCS({content_sha256, decision_id})), claimed decision_id recomputes from the given decision_preimage, and that decision's outcome is permit. This is the positive case: ordering is established by hash dependency alone.",
+      "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+    },
+    {
+      "case_id": "DECISION-BOUND-LEGACY",
+      "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "ORDERING_UNVERIFIABLE",
+      "note": "output_hash is the legacy content-only commitment (today's shape in ../build_vectors.py). Not tampering -- the write simply predates or does not use this mechanism. Reported as unverifiable, never as a failure.",
+      "recorded_output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91"
+    },
+    {
+      "case_id": "DECISION-BOUND-FORGED-CITATION",
+      "claimed_decision_id": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "FORGED_DECISION_CITATION",
+      "note": "claimed_decision_id is an arbitrary value that does not recompute from decision_preimage's own fields -- the citation of WHICH decision covers this write is itself wrong or fabricated, caught before even checking the output binding.",
+      "recorded_output_hash": "sha256:2e54729f8c9e947e556eeae602d98cf773a7cf96af111bdd69b34bfeab246f45"
+    },
+    {
+      "case_id": "DECISION-BOUND-SUBSTITUTED",
+      "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "BINDING_MISMATCH",
+      "note": "claimed_decision_id correctly recomputes from decision_preimage (the citation is legitimate), but recorded_output_hash was actually computed against a different decision_id (other_decision_id) -- neither the bound form under the claimed id nor the legacy form matches. Someone swapped which decision the output is really bound to after citing this one.",
+      "recorded_output_hash": "sha256:327606a446a7d61707f15c09cc2dd27b60e2b2944fad0bc11e355ff970fdca86"
+    },
+    {
+      "case_id": "DECISION-BOUND-DENIED",
+      "claimed_decision_id": "sha256:2bcf3244d4f04243562ff1672fbea3bc7ee22244756d9f38d2a09c697d098c3f",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "deny",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "UNAUTHORIZED_BINDING",
+      "note": "output_hash correctly binds to denied_decision_id, which recomputes cleanly from its own preimage -- but that decision's outcome is 'deny'. A denied decision cannot be the covering authority for a write that happened anyway, even though the binding itself is cryptographically sound. Same lesson as PROVENANCE.md finding #6 applied here.",
+      "recorded_output_hash": "sha256:db24c78457dacf697a4b282ac1a03ef965e65c03eb0dd17a712aad29c04f0232"
+    }
+  ],
+  "profile": "decision-bound-output-v1"
+}
