@@ -150,7 +150,7 @@ def main() -> None:
         "decision_preimage": decision_preimage,
         "claimed_decision_id": real_decision_id,
         "recorded_output_hash": bound_hash,
-        "expected_code": "ORDERING_ESTABLISHED",
+        "expected_code": "COMMITMENT_AFTER_DECISION",
         "note": (
             "The same real content and the same real covering decision, retrofitted "
             "under decision-bound-output-v1 -- what the same write would have produced "

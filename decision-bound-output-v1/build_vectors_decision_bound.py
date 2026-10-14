@@ -41,7 +41,7 @@ def main() -> None:
 
     cases = []
 
-    # 1. Properly bound, decision permits -> ORDERING_ESTABLISHED.
+    # 1. Properly bound, decision permits -> COMMITMENT_AFTER_DECISION.
     cases.append({
         "case_id": "DECISION-BOUND-OK",
         "note": (
@@ -54,7 +54,7 @@ def main() -> None:
         "decision_preimage": DECISION_PREIMAGE,
         "claimed_decision_id": real_decision_id,
         "recorded_output_hash": bound_output_hash(CONTENT_SHA256, real_decision_id),
-        "expected_code": "ORDERING_ESTABLISHED",
+        "expected_code": "COMMITMENT_AFTER_DECISION",
     })
 
     # 2. Legacy shape -- today's AR-00..AR-05, no binding attempted at all.
@@ -133,13 +133,13 @@ def main() -> None:
     #    Identical content and decision to DECISION-BOUND-OK (case 1), but this
     #    one also carries a prior_unbound_commitment: a legacy (unbound)
     #    output_hash for the SAME content, already on record BEFORE the bound
-    #    commitment below was constructed. ORDERING_ESTABLISHED proves the
+    #    commitment below was constructed. COMMITMENT_AFTER_DECISION proves the
     #    bound COMMITMENT could not predate the decision -- it does not and
     #    cannot prove the underlying WRITE didn't already happen through that
     #    earlier, unbound commitment. verify_case() does not read
     #    prior_unbound_commitment at all; this vector exists to make that gap
     #    checkable rather than only described in prose. expected_code stays
-    #    ORDERING_ESTABLISHED on purpose -- that IS today's behavior, and the
+    #    COMMITMENT_AFTER_DECISION on purpose -- that IS today's behavior, and the
     #    point of the vector is to prove it, not to claim it's fixed.
     cases.append({
         "case_id": "KNOWN-LIMITATION-COMMITMENT-NOT-WRITE",
@@ -149,7 +149,7 @@ def main() -> None:
             "this exact content was already on record before the bound commitment "
             "existed -- evidence the effect may have happened before any binding, "
             "not after. verify_case() ignores prior_unbound_commitment and still "
-            "returns ORDERING_ESTABLISHED: this vector demonstrates the documented "
+            "returns COMMITMENT_AFTER_DECISION: this vector demonstrates the documented "
             "commitment-after-decision vs write-after-decision gap (decision_bound.py "
             "module docstring), it does not close it. Comparable to EIP-3009 only in "
             "the positive direction -- EIP-3009's nonce is consumed by the same event "
@@ -165,7 +165,7 @@ def main() -> None:
             "output_hash": legacy_output_hash(CONTENT_SHA256),
             "recorded_before_bound_commitment": True,
         },
-        "expected_code": "ORDERING_ESTABLISHED",
+        "expected_code": "COMMITMENT_AFTER_DECISION",
     })
 
     out = {"profile": "decision-bound-output-v1", "cases": cases}

@@ -79,7 +79,7 @@ def verify_case(case: dict) -> dict:
                 ),
             }
         return {
-            "case_id": case_id, "code": "ORDERING_ESTABLISHED",
+            "case_id": case_id, "code": "COMMITMENT_AFTER_DECISION",
             "detail": (
                 "output_hash recomputes as SHA-256(JCS({content_sha256, decision_id})); the "
                 "write could not have produced this exact value without the cited decision's "

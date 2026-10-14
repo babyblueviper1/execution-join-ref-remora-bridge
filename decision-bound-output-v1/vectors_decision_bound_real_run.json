@@ -45,7 +45,7 @@
         "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
         "ts_ms": 1791941946000
       },
-      "expected_code": "ORDERING_ESTABLISHED",
+      "expected_code": "COMMITMENT_AFTER_DECISION",
       "note": "The same real content and the same real covering decision, retrofitted under decision-bound-output-v1 -- what the same write would have produced had the dispatcher folded decision_id into output_hash.",
       "recorded_output_hash": "sha256:a6ef258a2510098fa083559c130bda094eb90a410738c7c39af4124af36378bf",
       "source": {

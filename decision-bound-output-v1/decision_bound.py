@@ -76,7 +76,7 @@ THE FIVE RESULT CODES (named here, not only in code -- the other half of
 the same 2026-10-14 fix): in the check order above,
 `FORGED_DECISION_CITATION` (citation does not recompute) comes first,
 then `UNAUTHORIZED_BINDING` (citation recomputes, bound hash matches, but
-`outcome` is not `"permit"`), then `ORDERING_ESTABLISHED` (citation
+`outcome` is not `"permit"`), then `COMMITMENT_AFTER_DECISION` (citation
 recomputes, bound hash matches, `outcome` is `"permit"` -- the positive
 case), then, for a recorded output hash that matches neither the bound
 nor the legacy form, `BINDING_MISMATCH` (something was bound, but not
@@ -105,6 +105,17 @@ afterthought):
   would add a true timestamp the dispatcher cannot have influenced --
   that is a genuine strengthening, not required for the dependency proof
   itself, and not built here. Flagged as an open extension.
+
+  ACCEPTED 2026-10-14: babyblueviper1 offered to build this anchor
+  extension against these vectors, after naming the gap above. Accepted,
+  under two conditions set before any code was written: (a) it lands in
+  THIS repo under this org's own merge/ownership, not in an external fork
+  later proposed for integration; (b) the design decision this mechanism
+  still leaves open -- what identifies "the same write" across two
+  commitments, needed to close the commitment-vs-write gap two paragraphs
+  up, not just to add a timestamp -- is made by this org, not inherited
+  from the contribution. Credited explicitly for the offer and for the
+  gap that motivated it when that piece lands.
 - It says nothing about whether decision_id is used ONCE or re-used
   across several different writes. Re-use may or may not be meaningful
   depending on what the decision actually authorizes (unlike an
@@ -122,10 +133,13 @@ afterthought):
   to trust that the cited decision record is the complete, unaltered one.
   That is the same chain-of-custody question execution-join-ref-v1's own
   decision_preimage already has, unchanged here.
-- PRECISE SCOPE OF ORDERING_ESTABLISHED (named by babyblueviper1,
-  2026-10-14, confirmed against the repo's own real-run vectors):
-  ORDERING_ESTABLISHED proves commitment-after-decision -- that THIS BOUND
-  COMMITMENT (the specific output_hash value) could not have been
+- PRECISE SCOPE OF COMMITMENT_AFTER_DECISION (renamed 2026-10-14 from this
+  code's original, less precise name ORDERING_ESTABLISHED -- the new name
+  was babyblueviper1's suggestion, naming exactly what the gap below forced
+  us to say in prose anyway; credited for both finding the gap and for the
+  more accurate name, judo epistémico applied to our own vocabulary, not
+  just a third party's). It proves commitment-after-decision -- that THIS
+  BOUND COMMITMENT (the specific output_hash value) could not have been
   constructed before the cited decision's content existed. It does NOT
   prove write-after-decision -- that the underlying effect (the file
   itself) was not already written, through some other, unbound path,
@@ -143,7 +157,7 @@ afterthought):
   `DECISION-BOUND-OK`, but carrying a `prior_unbound_commitment` field
   showing the same content was already committed, unbound, before the
   bound commitment was constructed -- `verify_case()` still returns
-  `ORDERING_ESTABLISHED` for it today, because nothing in this mechanism
+  `COMMITMENT_AFTER_DECISION` for it today, because nothing in this mechanism
   reads that field. Closing this (comparing against a prior commitment
   for "the same write", which first requires defining what identifies a
   write across two commitments -- a real design question, not a quick
