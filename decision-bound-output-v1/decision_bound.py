@@ -61,6 +61,21 @@ their own chosen id -- see DECISION-BOUND-FORGED-CITATION in
 vectors_decision_bound.json, constructed exactly to catch a verifier that
 gets this order backwards.
 
+Pinned explicit 2026-10-15 (ogasurfproject-jpg's reader-C, second blind
+round against 4cbf5c8, named these as the two remaining places the text
+allowed a reading other than the code's): the `outcome` check below applies
+ONLY after a bound match -- a legacy (unbound) hash is never routed through
+the outcome gate, no matter what the cited decision's outcome is -- and a
+legacy hash is tested ONLY after the citation itself recomputes -- a forged
+citation is never routed through the legacy check either. In the check
+order, both the citation check and the bound/legacy hash comparison happen
+strictly before outcome is ever read. See DECISION-BOUND-FORGED-CITATION-
+LEGACY, DECISION-BOUND-DENIED-LEGACY and DECISION-BOUND-DENIED-MISMATCH in
+vectors_decision_bound.json, added for exactly this: same forged citation
+or same denied decision as the existing vectors, with recorded_output_hash
+swapped to the legacy form or to an unrelated value, to pin the one correct
+reading where before only this prose, not a vector, ruled out the other one.
+
 A citation is only accepted if, in addition to recomputing, the cited
 decision's own `outcome` field is `"permit"`: a decision that is
 structurally bound to the output but recorded `"deny"` or `"defer"`

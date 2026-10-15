@@ -93,6 +93,51 @@
         "recorded_before_bound_commitment": true
       },
       "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+    },
+    {
+      "case_id": "DECISION-BOUND-FORGED-CITATION-LEGACY",
+      "claimed_decision_id": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "FORGED_DECISION_CITATION",
+      "note": "ogasurfproject-jpg's reader-C/B clean-room comparison (2026-10-14, second blind round against 4cbf5c8): same forged claimed_decision_id as DECISION-BOUND-FORGED-CITATION, but recorded_output_hash is the UNBOUND legacy form, not a bound-mismatch value. Pins that the citation check happens strictly before the output hash is even built -- a forged citation is caught regardless of what the recorded output hash looks like, legacy or not.",
+      "recorded_output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91"
+    },
+    {
+      "case_id": "DECISION-BOUND-DENIED-LEGACY",
+      "claimed_decision_id": "sha256:2bcf3244d4f04243562ff1672fbea3bc7ee22244756d9f38d2a09c697d098c3f",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "deny",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "ORDERING_UNVERIFIABLE",
+      "note": "ogasurfproject-jpg's reader-C/B clean-room comparison (2026-10-14, second blind round against 4cbf5c8): same denied decision as DECISION-BOUND-DENIED (outcome=deny, citation recomputes cleanly), but recorded_output_hash is the UNBOUND legacy form. Pins that the legacy-hash check runs before the outcome=permit gate -- an unbound write is ORDERING_UNVERIFIABLE even when the decision it might have cited was denied, never UNAUTHORIZED_BINDING, because no binding to that decision was ever claimed by the hash itself.",
+      "recorded_output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91"
+    },
+    {
+      "case_id": "DECISION-BOUND-DENIED-MISMATCH",
+      "claimed_decision_id": "sha256:2bcf3244d4f04243562ff1672fbea3bc7ee22244756d9f38d2a09c697d098c3f",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "deny",
+        "policy_id": "probity-protected-action-reference-v0/policy-A",
+        "ts_ms": 1760000100000
+      },
+      "expected_code": "BINDING_MISMATCH",
+      "note": "ogasurfproject-jpg's reader-C/B clean-room comparison (2026-10-14, second blind round against 4cbf5c8): same denied decision as DECISION-BOUND-DENIED, but recorded_output_hash matches neither the bound form under the cited (denied) decision_id nor the legacy content-only form -- reuses DECISION-BOUND-SUBSTITUTED's own mismatch value. Pins that an unrelated/altered output hash is BINDING_MISMATCH even when the cited decision was denied, never UNAUTHORIZED_BINDING, because UNAUTHORIZED_BINDING requires the recorded hash to actually match the bound form first.",
+      "recorded_output_hash": "sha256:327606a446a7d61707f15c09cc2dd27b60e2b2944fad0bc11e355ff970fdca86"
     }
   ],
   "profile": "decision-bound-output-v1"
