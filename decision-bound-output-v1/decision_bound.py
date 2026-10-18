@@ -131,6 +131,10 @@ afterthought):
   up, not just to add a timestamp -- is made by this org, not inherited
   from the contribution. Credited explicitly for the offer and for the
   gap that motivated it when that piece lands.
+  BUILT 2026-10-18: verify_decision_bound_anchor.py (witness order over
+  OpenTimestamps / RFC 3161 anchors of decision_id and the bound
+  output_hash; runs verify_case() first, unchanged; orders commitments,
+  not writes -- the same-write call above stays with this org).
 - It says nothing about whether decision_id is used ONCE or re-used
   across several different writes. Re-use may or may not be meaningful
   depending on what the decision actually authorizes (unlike an

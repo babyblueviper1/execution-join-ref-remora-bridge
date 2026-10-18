@@ -41,6 +41,48 @@ python3 verify.py vectors.json
 re-derives every reference from the raw fields each case carries rather
 than trusting the precomputed values.
 
+## Decision-bound anchor extension (witness order)
+
+`decision-bound-output-v1/` proves by hash dependency that a bound
+`output_hash` could not exist before its decision's content did. Its docstring
+names what that leaves open: a dispatcher could fabricate the decision and the
+bound output together, after the fact. The anchor extension adds an
+independent witness on each side:
+
+* an OpenTimestamps proof (Bitcoin) and/or RFC 3161 tokens over the hex of
+  `claimed_decision_id`, and over the hex of `recorded_output_hash`;
+* a stdlib verifier (`verify_decision_bound_anchor.py`, with `anchor_ots.py`
+  and `anchor_rfc3161.py`) that runs this repo's `verify_case()` first,
+  unchanged, and only then orders the anchors.
+
+| Anchor result | Meaning |
+|---|---|
+| `DECISION_WITNESSED_FIRST` | the decision was witnessed before the bound output, beyond the anchors' error |
+| `WITNESS_ORDER_UNRESOLVED` | same block, or genTimes within accuracy (60 s each when a token states none; 7200 s for Bitcoin time across kinds) |
+| `DECISION_WITNESSED_AFTER_OUTPUT` | the output was public first: a back-cited decision is not excluded |
+| `WITNESS_CONFLICT` | two witnesses disagree beyond tolerance |
+| `ANCHOR_PENDING` / `ANCHOR_DIGEST_MISMATCH` / `ANCHOR_INVALID` | no confirmed anchor yet / an anchor over other bytes / an anchor that does not parse or whose header is not its commitment |
+
+It orders commitments, not writes: `KNOWN-LIMITATION-COMMITMENT-NOT-WRITE`
+keeps its anchored twin, still `DECISION_WITNESSED_FIRST`. What identifies "the
+same write" stays this repo's call. The tolerances are the ones ERC-8434 section
+7 fixes for commitment-log anchors.
+
+```sh
+cd decision-bound-output-v1
+python3 verify_decision_bound_anchor.py            # 20 synthetic cases (vectors_anchor.json) + the live cases
+python3 check_anchor_mutations.py                  # 10 lax verifiers, each caught by a vector
+python3 build_vectors_anchor.py                    # rebuilds the synthetic set
+python3 bind_anchor_live.py                        # rebuilds the live set (network + opentimestamps-client)
+```
+
+The live cases (`vectors_anchor_live.json`, records in `anchor_live/`) carry
+real Bitcoin proofs and real FreeTSA and DigiCert tokens, obtained through
+`POST https://api.babyblueviper.com/work-acceptance/criteria` with
+`{"sha256": "<digest hex>"}` (free). The verifier never contacts that service:
+the tokens are the TSAs' own and the proofs replay to Bitcoin headers. Contributed by
+[babyblueviper1 / invinoveritas](https://github.com/babyblueviper1/preaction-governance-conformance), MIT like the rest of this repo.
+
 ## License
 
 MIT

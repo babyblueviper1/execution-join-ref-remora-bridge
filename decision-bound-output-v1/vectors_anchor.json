@@ -1,0 +1,840 @@
+{
+ "cases": [
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-OTS-DECISION-FIRST",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "DECISION_WITNESSED_FIRST",
+   "note": "decision in block h, output first seen in block h+3: block order is exact",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "ab5aa90b9d8c22f13e6841128b847230158c58ff697d9968fb934d4d28bcfec4",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-OTS-SAME-BLOCK",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "WITNESS_ORDER_UNRESOLVED",
+   "note": "both commitments in one block: what a dispatcher fabricating both at once produces -- no order",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "4606da4f518d0e4a2c37e00a299dcc107e182269d9bb589a16f65aa365ac9f99",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd917678c0d46affff001d00000000",
+        "height": 900005
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6X3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "1444ca89364f315f64a214abd60b127af2ba837ae3f1cd59ad8e6168e8e9727f",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d04518b7d46affff001d00000000",
+        "height": 900001
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6H3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-OTS-OUTPUT-FIRST",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "DECISION_WITNESSED_AFTER_OUTPUT",
+   "note": "the output was public four blocks before the decision: a back-cited decision is not excluded",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAIPf4w0u+QyOIyJodHRwczovL3N5bnRoZXRpYy5jYWxlbmRhci5pbnZhbGlk",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-OTS-PENDING",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "ANCHOR_PENDING",
+   "note": "decision proof has only a calendar (pending) attestation: no bound yet, not a failure",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "3fdb60b7decf12bfec1d8fb850e23e837bc16c13d9a5be20b0b11c500cab5306",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000743934b7eeaad6663227ee4b6ddd958026bf644cbcc00c2361fce0b5e3e6849cc0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIIUGhpZqj0n0O4d88G8jxPJ+Diz9kc43wsoCSI9JBT0TwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-OTS-DIGEST-MISMATCH",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "ANCHOR_DIGEST_MISMATCH",
+   "note": "a valid proof over other bytes is not evidence about this decision",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "6e663bbafea100ab38276f228311b497270a95e26f4eaf1d71ca6ab007242574",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029c22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-OTS-HEADER-NOT-COMMITMENT",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "ANCHOR_INVALID",
+   "note": "header hashes to its block hash, but its merkle root is not the proof's commitment",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEIIWXdsx2D3kyBp2j3+P4JADGj8w6sAfClBqyGkUUsF9jAgEBGA8yMDI2MTAxODEyMDAwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    },
+    "output": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEICCPaYWQoyP3eIpJrGo7fbBgnAk8S30Lwu28iau27zQVAgEBGA8yMDI2MTAxODEyMDUwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-RFC3161-DECISION-FIRST",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "DECISION_WITNESSED_FIRST",
+   "note": "genTimes 300 s apart, no stated accuracy: beyond 60 s + 60 s",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEIIWXdsx2D3kyBp2j3+P4JADGj8w6sAfClBqyGkUUsF9jAgEBGA8yMDI2MTAxODEyMDAwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    },
+    "output": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEICCPaYWQoyP3eIpJrGo7fbBgnAk8S30Lwu28iau27zQVAgEBGA8yMDI2MTAxODEyMDEzMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-RFC3161-WITHIN-DEFAULT-TOLERANCE",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "WITNESS_ORDER_UNRESOLVED",
+   "note": "90 s apart, no stated accuracy: inside the 60 s default on each side",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MG4wAwIBADBnBgsqhkiG9w0BCRABBKBYBFYwVAIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEIIWXdsx2D3kyBp2j3+P4JADGj8w6sAfClBqyGkUUsF9jAgEBGA8yMDI2MTAxODEyMDAwMFowAwIBAQ==",
+       "tsa": "synthetic"
+      }
+     ]
+    },
+    "output": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MG4wAwIBADBnBgsqhkiG9w0BCRABBKBYBFYwVAIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEICCPaYWQoyP3eIpJrGo7fbBgnAk8S30Lwu28iau27zQVAgEBGA8yMDI2MTAxODEyMDEzMFowAwIBAQ==",
+       "tsa": "synthetic"
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-RFC3161-STATED-ACCURACY",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "DECISION_WITNESSED_FIRST",
+   "note": "same 90 s, but both tokens state accuracy 1 s: the token's own accuracy replaces the default",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEIIWXdsx2D3kyBp2j3+P4JADGj8w6sAfClBqyGkUUsF9jAgEBGA8yMDI2MTAxODEyMDAwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    },
+    "output": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEICCPaYWQoyP3eIpJrGo7fbBgnAk8S30Lwu28iau27zQVAgEBGA8yMDI2MTAxODEyMDUwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-RFC3161-WIDER-TOLERANCE",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "WITNESS_ORDER_UNRESOLVED",
+   "note": "300 s apart, verifier policy tolerance_s 600: unresolved under the stricter policy",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415",
+   "tolerance_s": 600
+  },
+  {
+   "anchors": {
+    "decision": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEIIWXdsx2D3kyBp2j3+P4JADGj8w6sAfClBqyGkUUsF9jAgEBGA8yMDI2MTAxODEyMDAwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    },
+    "output": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEICFBoaWao9J9DuHfPBvI8Tyfg4s/ZHON8LKAkiPSQU9EAgEBGA8yMDI2MTAxODEyMDUwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-RFC3161-DIGEST-MISMATCH",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "ANCHOR_DIGEST_MISMATCH",
+   "note": "output token's imprint is another digest",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEICCPaYWQoyP3eIpJrGo7fbBgnAk8S30Lwu28iau27zQVAgEBGA8yMDI2MTAxODE1MDAwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-CROSS-KIND-FIRST",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "DECISION_WITNESSED_FIRST",
+   "note": "no same-kind pair: block time + 7200 s still before genTime - 60 s",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEICCPaYWQoyP3eIpJrGo7fbBgnAk8S30Lwu28iau27zQVAgEBGA8yMDI2MTAxODEzMDAwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-CROSS-KIND-WITHIN-TOLERANCE",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "WITNESS_ORDER_UNRESOLVED",
+   "note": "one hour apart across kinds: inside Bitcoin's two-hour rule",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ],
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEIIWXdsx2D3kyBp2j3+P4JADGj8w6sAfClBqyGkUUsF9jAgEBGA8yMDI2MTAxODEyMTUwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ],
+     "rfc3161": [
+      {
+       "synthetic": true,
+       "token_base64": "MGkwAwIBADBiBgsqhkiG9w0BCRABBKBTBFEwTwIBAQYDKgMEMDEwDQYJYIZIAWUDBAIBBQAEICCPaYWQoyP3eIpJrGo7fbBgnAk8S30Lwu28iau27zQVAgEBGA8yMDI2MTAxODEyMDAwMFo=",
+       "tsa": "synthetic"
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-CONFLICT",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "WITNESS_CONFLICT",
+   "note": "blocks say decision first, the TSA tokens say output first by 900 s: one witness is wrong",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "d07cdcb6f0da8a9e4fb63b280a5f7589845a9d60bda45897edc4418459ec5f51",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000a54c085de6a3632c8a35168f7943cfe46535772ddb948da443b894623adea6c230ccd46affff001d00000000",
+        "height": 900010
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAmQyCAAFiJYNc9cZAQOq9zY=",
+       "synthetic": true
+      },
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "983209495ec28f2d6dab438c78fa6f31cf72259f2a29a9061a00ad65492e60fa",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d04578c0d46affff001d00000000",
+        "height": 900005
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6X3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-OTS-EARLIEST-COUNTS",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "DECISION_WITNESSED_FIRST",
+   "note": "decision anchored twice (h, h+10), output at h+5: the earliest decision anchor is the bound",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "f1ee0ee70ffb2be4727beb4554432c2be45d7c1df04425ccb89fdfa12d00eb40",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd917618b7d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "ab5aa90b9d8c22f13e6841128b847230158c58ff697d9968fb934d4d28bcfec4",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c0b4d46affff001d00000000",
+        "height": 900001
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6H3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-OTS-HEIGHT-NOT-HEADER-TIME",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "DECISION_WITNESSED_FIRST",
+   "note": "header times are not monotonic (h+1 is stamped 600 s before h): OTS vs OTS orders by height",
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-FORGED-CITATION-NOT-READ",
+   "claimed_decision_id": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "FORGED_DECISION_CITATION",
+   "note": "base check first: anchors cannot repair a forged citation and are never read",
+   "recorded_output_hash": "sha256:2e54729f8c9e947e556eeae602d98cf773a7cf96af111bdd69b34bfeab246f45"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-DENIED-NOT-READ",
+   "claimed_decision_id": "sha256:2bcf3244d4f04243562ff1672fbea3bc7ee22244756d9f38d2a09c697d098c3f",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "deny",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "UNAUTHORIZED_BINDING",
+   "note": "a denied decision authorizes nothing, however early it was witnessed",
+   "recorded_output_hash": "sha256:db24c78457dacf697a4b282ac1a03ef965e65c03eb0dd17a712aad29c04f0232"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "ANCHOR-LEGACY-NOT-READ",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "ORDERING_UNVERIFIABLE",
+   "note": "an unbound (legacy) output has no dependency for an anchor to add a time to",
+   "recorded_output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91"
+  },
+  {
+   "anchors": {
+    "decision": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "63c8ec16ad6ef4c994ee872d688db9213e0e5e7eec348b574b66737c7324e786",
+        "header_hex": "000000200000000000000000000000000000000000000000000000000000000000000000171592029d22b5736ccee22037d7c229870a5af63557f8a948526efc5dfd9176c0b4d46affff001d00000000",
+        "height": 900000
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIhZd2zHYPeTIGnaPf4/gkAMaPzDqwB8KUGrIaRRSwX2PwAWQIAAWIlg1z1xkBA6D3Ng==",
+       "synthetic": true
+      }
+     ]
+    },
+    "output": {
+     "ots": [
+      {
+       "bitcoin": {
+        "block_hash": "462a8762ab24610a9f77456a809a1b14ee9e5c2adafab11c65cd1419a96a9485",
+        "header_hex": "00000020000000000000000000000000000000000000000000000000000000000000000077d8afb3b1e5b1bcdcf81ff63cbd8358743e50f5ba7fb1970e2595cfe6c7d045c8bbd46affff001d00000000",
+        "height": 900003
+       },
+       "proof_base64": "AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIII9phZCjI/d4ikmsajt9sGCcCTxLfQvC7byJq7bvNBXwAW8IAAWIlg1z1xkBA6P3Ng==",
+       "synthetic": true
+      }
+     ]
+    }
+   },
+   "case_id": "KNOWN-LIMITATION-COMMITMENT-NOT-WRITE-ANCHORED",
+   "claimed_decision_id": "sha256:859776cc760f7932069da3dfe3f82400c68fcc3ab007c2941ab21a4514b05f63",
+   "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+   "decision_preimage": {
+    "action_ref": "sha256:9c3d1f3a9e6b2d4c5a7e8f9012345678901234567890123456789012345678",
+    "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+    "outcome": "permit",
+    "policy_id": "probity-protected-action-reference-v0/policy-A",
+    "ts_ms": 1760000100000
+   },
+   "expected_code": "DECISION_WITNESSED_FIRST",
+   "note": "anchors order the COMMITMENTS; content already written unbound before the decision still passes -- the same-write question stays open (this repo's call)",
+   "prior_unbound_commitment": {
+    "output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+    "recorded_before_bound_commitment": true
+   },
+   "recorded_output_hash": "sha256:208f698590a323f7788a49ac6a3b7db0609c093c4b7d0bc2edbc89abb6ef3415"
+  }
+ ],
+ "profile": "decision-bound-output-v1-anchor-synthetic"
+}
