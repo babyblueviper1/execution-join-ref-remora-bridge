@@ -84,8 +84,8 @@ the tokens are the TSAs' own and the proofs replay to Bitcoin headers. There are
 cases under one real decision (Bitcoin block 971996). `ANCHOR-LIVE-1` is a write anchored 98 s
 after the decision, in the same block, so it is `WITNESS_ORDER_UNRESOLVED`, which is what minting
 both at once looks like. `ANCHOR-LIVE-2` was written only after the decision's proof was in a block,
-and is `DECISION_WITNESSED_FIRST` on its RFC 3161 tokens (18,914 s later). Its own OpenTimestamps proof
-was still pending when the case was bound, so it does not vote. Contributed by
+and is `DECISION_WITNESSED_FIRST` on both kinds: its RFC 3161 tokens are 18,914 s later and its own
+OpenTimestamps proof is in block 972032. Contributed by
 [babyblueviper1 / invinoveritas](https://github.com/babyblueviper1/preaction-governance-conformance), MIT like the rest of this repo.
 
 ## License
